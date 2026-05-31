@@ -84,7 +84,7 @@ const PLACES_BASE = [
     loc:"Penanggungan, Klojen, Malang",
     address:"Jl. Jakarta No.34, Penanggungan, Klojen, Kota Malang",
     rating:4.7, type:"Café",
-    tags:["WiFi","AC","Power Outlet","Parkir Gratis"],
+    tags:["High-Speed WiFi","AC","Power Outlet","Parkir Gratis"],
     desc:"AND Coffee Space menawarkan konsep unik: kafe sekaligus ruang kerja yang fleksibel. Dengan interior yang minimalis dan modern, tempat ini populer di kalangan mahasiswa dan profesional muda. Tersedia meja besar untuk kerja kelompok dan booth untuk sesi kerja solo.",
     facilities:[
       {icon:"📶",name:"WiFi Cepat"},{icon:"❄️",name:"Full AC"},{icon:"🔌",name:"Power Outlet"},
@@ -103,7 +103,7 @@ const PLACES_BASE = [
     loc:"Penanggungan, Klojen, Malang",
     address:"Jl. Bandung No.28, Penanggungan, Klojen, Kota Malang",
     rating:4.6, type:"Café",
-    tags:["WiFi","AC","Instagrammable"],
+    tags:["High-Speed WiFi","AC","Instagrammable"],
     desc:"AADK Jalan Bandung adalah kafe dengan konsep nostalgia era 90an yang unik dan charming. Suasana retro yang kental membuat pengunjung merasa nyaman berlama-lama. Menu kopi manual brew dengan berbagai metode tersedia untuk para kopi enthusiast. Area belajar tersedia di pojok yang lebih tenang.",
     facilities:[
       {icon:"📶",name:"WiFi Gratis"},{icon:"❄️",name:"Full AC"},{icon:"☕",name:"Manual Brew"},
