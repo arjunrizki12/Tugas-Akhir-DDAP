@@ -12,9 +12,9 @@ const PLACES_BASE = [
       {icon:"☕",name:"Coffee & Eatery"},{icon:"🪑",name:"Kursi Nyaman"},{icon:"🌙",name:"Buka Malam"}
     ],
     schedule:[
-      {day:"Senin - Jumat",time:"08:00 - 23:00",closed:false},
-      {day:"Sabtu",time:"09:00 - 23:00",closed:false},
-      {day:"Minggu",time:"09:00 - 22:00",closed:false}
+      {day:"Senin - Jumat",time:"07:00 - 22:00",closed:false},
+      {day:"Sabtu",time:"09:00 - 22:00",closed:false},
+      {day:"Minggu",time:"07:00 - 22:00",closed:false}
     ],
     tip:'"Datang weekday pagi untuk suasana paling tenang. Meja di dekat jendela selalu jadi rebutan!"',
     coords:"-7.9475961519303775, 112.61323984232841",
@@ -33,9 +33,7 @@ const PLACES_BASE = [
       {icon:"☕",name:"Specialty Coffee"},{icon:"📸",name:"Spot Foto"},{icon:"🌿",name:"Nuansa Alam"}
     ],
     schedule:[
-      {day:"Senin - Jumat",time:"09:00 - 22:00",closed:false},
-      {day:"Sabtu",time:"09:00 - 23:00",closed:false},
-      {day:"Minggu",time:"10:00 - 21:00",closed:false}
+      {day:"Senin - Minggu",time:"10:00 - 02:00",closed:false},
     ],
     tip:'"Coba menu seasonal mereka yang selalu berubah tiap bulan. Tersedia pojok belajar yang lebih sepi di lantai atas."',
     coords:"-7.947013900135113, 112.61345975767158",
@@ -54,8 +52,8 @@ const PLACES_BASE = [
       {icon:"🚪",name:"Kumpul Bareng"},{icon:"🍪",name:"Bawa Camilan"},{icon:"📖",name:"Rak Buku"}
     ],
     schedule:[
-      {day:"Senin - Jumat",time:"07:00 - 22:00",closed:false},
-      {day:"Sabtu - Minggu",time:"08:00 - 23:00",closed:false}
+      {day:"Senin - Jumat",time:"08:00 - 22:00",closed:false},
+      {day:"Sabtu - Minggu",time:"Tutup",closed:true}
     ],
     tip:'"Suasananya Tenang! Meja kayu panjang di tengah cocok banget untuk kerja kelompok."',
     coords:"-7.953000884346238, 112.61317464862965",
@@ -63,7 +61,7 @@ const PLACES_BASE = [
     bg:"linear-gradient(135deg,#5C4033 0%,#8B7355 100%)"
   },
   {
-    id:4, name:"JOKOPI - Malang",
+    id:4, name:"JOKOPI Malang",
     loc:"Penanggungan, Klojen, Malang",
     address:"Jl. Jakarta No.26, Penanggungan, Klojen, Kota Malang",
     rating:4.8, type:"Café",
@@ -74,9 +72,7 @@ const PLACES_BASE = [
       {icon:"🔇",name:"Quiet Zone"},{icon:"☕",name:"Coffee Premium"},{icon:"🅿️",name:"Area Parkir"}
     ],
     schedule:[
-      {day:"Senin - Jumat",time:"07:00 - 23:00",closed:false},
-      {day:"Sabtu",time:"08:00 - 24:00",closed:false},
-      {day:"Minggu",time:"08:00 - 22:00",closed:false}
+      {day:"Senin - Minggu",time:"Buka 24 Jam",closed:false},
     ],
     tip:'"Lantai 2 lebih tenang dan sinyal WiFi-nya lebih kencang. Buka lebih awal dari kebanyakan kafe sekitar."',
     coords:"-7.96277353505297, 112.6226754388384",
@@ -84,18 +80,18 @@ const PLACES_BASE = [
     bg:"linear-gradient(135deg,#1a1a2e 0%,#16213e 50%,#0f3460 100%)"
   },
   {
-    id:5, name:"AND Coffee Space Cafe",
+    id:5, name:"AND Coffee",
     loc:"Penanggungan, Klojen, Malang",
     address:"Jl. Jakarta No.34, Penanggungan, Klojen, Kota Malang",
     rating:4.7, type:"Café",
-    tags:["High-Speed WiFi","AC","Power Outlet","Parkir Gratis"],
+    tags:["WiFi","AC","Power Outlet","Parkir Gratis"],
     desc:"AND Coffee Space menawarkan konsep unik: kafe sekaligus ruang kerja yang fleksibel. Dengan interior yang minimalis dan modern, tempat ini populer di kalangan mahasiswa dan profesional muda. Tersedia meja besar untuk kerja kelompok dan booth untuk sesi kerja solo.",
     facilities:[
       {icon:"📶",name:"WiFi Cepat"},{icon:"❄️",name:"Full AC"},{icon:"🔌",name:"Power Outlet"},
       {icon:"🅿️",name:"Parkir Gratis"},{icon:"☕",name:"Coffee & Tea"},{icon:"🖥️",name:"Monitor Tersedia"}
     ],
     schedule:[
-      {day:"Senin - Minggu",time:"08:00 - 22:00",closed:false}
+      {day:"Senin - Minggu",time:"10:00 - 22:00",closed:false}
     ],
     tip:'"Tersedia paket bundling kopi + coworking per hari. Tanya barista untuk promo spesial mahasiswa."',
     coords:"-7.962909457442121, 112.62209928301726",
@@ -103,18 +99,18 @@ const PLACES_BASE = [
     bg:"linear-gradient(135deg,#364f6b 0%,#3fc1c9 100%)"
   },
   {
-    id:6, name:"ADA APA DENGAN KOPI - AADK",
+    id:6, name:"ADA APA DENGAN KOPI",
     loc:"Penanggungan, Klojen, Malang",
     address:"Jl. Bandung No.28, Penanggungan, Klojen, Kota Malang",
     rating:4.6, type:"Café",
-    tags:["High-Speed WiFi","AC","Instagrammable"],
+    tags:["WiFi","AC","Instagrammable"],
     desc:"AADK Jalan Bandung adalah kafe dengan konsep nostalgia era 90an yang unik dan charming. Suasana retro yang kental membuat pengunjung merasa nyaman berlama-lama. Menu kopi manual brew dengan berbagai metode tersedia untuk para kopi enthusiast. Area belajar tersedia di pojok yang lebih tenang.",
     facilities:[
       {icon:"📶",name:"WiFi Gratis"},{icon:"❄️",name:"Full AC"},{icon:"☕",name:"Manual Brew"},
       {icon:"🎵",name:"Musik Lokal"},{icon:"📸",name:"Spot Foto 90s"},{icon:"🪴",name:"Area Outdoor"}
     ],
     schedule:[
-      {day:"Senin - Minggu",time:"10:00 - 23:00",closed:false}
+      {day:"Senin - Minggu",time:"07:00 - 00:00",closed:false}
     ],
     tip:'"Coba V60 single origin Flores mereka yang legendaris. Area outdoor di malam hari sangat nyaman."',
     coords:"-7.960348715054762, 112.62319362412306",
@@ -122,7 +118,7 @@ const PLACES_BASE = [
     bg:"linear-gradient(135deg,#c0392b 0%,#e74c3c 60%,#f39c12 100%)"
   },
   {
-    id:7, name:"Labore Coffee Eatery",
+    id:7, name:"Labore Coffee",
     loc:"Mojolangu, Lowokwaru, Malang",
     address:"Jl. Soekarno Hatta No.25, Mojolangu, Lowokwaru, Kota Malang",
     rating:4.7, type:"Café",
@@ -133,8 +129,7 @@ const PLACES_BASE = [
       {icon:"🅿️",name:"Parkir Gratis"},{icon:"🍽️",name:"Full Menu Eatery"},{icon:"🪑",name:"Kursi Ergonomis"}
     ],
     schedule:[
-      {day:"Senin - Jumat",time:"08:00 - 22:00",closed:false},
-      {day:"Sabtu - Minggu",time:"09:00 - 22:00",closed:false}
+      {day:"Senin - Minggu",time:"09:00 - 00:00",closed:false},
     ],
     tip:'"Paket makan siang + kopi tersedia di harga spesial. Tempat parkir luas, cocok yang bawa motor maupun mobil."',
     coords:"-7.946873514221842, 112.61553248177435",
@@ -142,7 +137,7 @@ const PLACES_BASE = [
     bg:"linear-gradient(135deg,#1B4332 0%,#40916C 100%)"
   },
   {
-    id:8, name:"Athome Space - Coworking & Meeting",
+    id:8, name:"Athome Space",
     loc:"Jatimulyo, Lowokwaru, Malang",
     address:"Jl. Bunga Kumis Kucing No.5, Jatimulyo, Lowokwaru, Kota Malang",
     rating:4.8, type:"Coworking",
@@ -153,9 +148,8 @@ const PLACES_BASE = [
       {icon:"🅿️",name:"Parkir Gratis"},{icon:"📺",name:"Proyektor"},{icon:"🔇",name:"Quiet Zone"}
     ],
     schedule:[
-      {day:"Senin - Jumat",time:"07:00 - 22:00",closed:false},
-      {day:"Sabtu",time:"08:00 - 20:00",closed:false},
-      {day:"Minggu",time:"09:00 - 18:00",closed:false}
+      {day:"Senin - Minggu",time:"08:00 - 21:00",closed:false},
+
     ],
     tip:'"Reservasi private room minimal H-1. Open space tersedia walk-in. Harga per jam sangat terjangkau untuk mahasiswa."',
     coords:"-7.939781235870914, 112.61584620859371",
@@ -163,7 +157,7 @@ const PLACES_BASE = [
     bg:"linear-gradient(135deg,#0d3b4a 0%,#1abc9c 100%)"
   },
   {
-    id:9, name:"EZO CO-WORKING SPACE",
+    id:9, name:"EZO CO-WORKING",
     loc:"Jatimulyo, Lowokwaru, Malang",
     address:"Jl. Dewandaru No.68, Jatimulyo, Lowokwaru, Kota Malang",
     rating:4.6, type:"Coworking",
@@ -174,8 +168,8 @@ const PLACES_BASE = [
       {icon:"🚪",name:"Meeting Room"},{icon:"🖨️",name:"Printer"},{icon:"☕",name:"Coffee Corner"}
     ],
     schedule:[
-      {day:"Senin - Jumat",time:"08:00 - 22:00",closed:false},
-      {day:"Sabtu",time:"09:00 - 20:00",closed:false},
+      {day:"Senin - Jumat",time:"09:00 - 18:00",closed:false},
+      {day:"Sabtu",time:"09:00 - 17:00",closed:false},
       {day:"Minggu",time:"Tutup",closed:true}
     ],
     tip:'"Paket bulanan jauh lebih hemat jika sering digunakan. Member dapat akses 24 jam dengan deposit tambahan."',
@@ -184,7 +178,7 @@ const PLACES_BASE = [
     bg:"linear-gradient(135deg,#2c3e50 0%,#3498db 100%)"
   },
   {
-    id:10, name:"G-Space | Coworking & Meeting Room",
+    id:10, name:"G-Space",
     loc:"Mojolangu, Lowokwaru, Malang",
     address:"Jl. Candi Ngrimbi No.2, Mojolangu, Lowokwaru, Kota Malang",
     rating:4.7, type:"Coworking",
@@ -195,9 +189,8 @@ const PLACES_BASE = [
       {icon:"🅿️",name:"Parkir Gratis"},{icon:"📺",name:"Smart TV"},{icon:"🖨️",name:"Printer & Scan"}
     ],
     schedule:[
-      {day:"Senin - Jumat",time:"08:00 - 22:00",closed:false},
-      {day:"Sabtu",time:"09:00 - 21:00",closed:false},
-      {day:"Minggu",time:"10:00 - 18:00",closed:false}
+      {day:"Senin - Sabtu",time:"08:00 - 17:00",closed:false},
+      {day:"Minggu",time:"Tutup",closed:true}
     ],
     tip:'"Smart TV di ruang meeting bisa konek laptop langsung. Tersedia whiteboard besar untuk brainstorming."',
     coords:"-7.940407116928114, 112.63466793930202",
@@ -205,7 +198,7 @@ const PLACES_BASE = [
     bg:"linear-gradient(135deg,#5f4b8b 0%,#af76d5 100%)"
   },
   {
-    id:11, name:"EJSC Co-Working Space Malang",
+    id:11, name:"EJSC Co-Working",
     loc:"Oro-oro Dowo, Klojen, Malang",
     address:"Jl. Simpang Ijen No.2, Oro-oro Dowo, Klojen, Kota Malang",
     rating:4.9, type:"Coworking",
@@ -216,9 +209,8 @@ const PLACES_BASE = [
       {icon:"🔇",name:"Quiet Zone"},{icon:"🚪",name:"Meeting Room"},{icon:"☕",name:"Free Coffee"}
     ],
     schedule:[
-      {day:"Senin - Jumat",time:"07:00 - 22:00",closed:false},
-      {day:"Sabtu",time:"08:00 - 20:00",closed:false},
-      {day:"Minggu",time:"Tutup",closed:true}
+      {day:"Senin - Jumat",time:"09:00 - 16:00",closed:false},
+      {day:"Sabtu - Minggu",time:"Tutup",closed:true}
     ],
     tip:'"Member premium dapat akses loker dan alamat bisnis resmi. Lokasi strategis dekat kantor pemerintahan Klojen."',
     coords:"-7.963491705629199, 112.62417112395758",
@@ -226,7 +218,7 @@ const PLACES_BASE = [
     bg:"linear-gradient(135deg,#004d40 0%,#00897b 100%)"
   },
   {
-    id:12, name:"Ruang Perintis Co-Working & Incubator",
+    id:12, name:"Ruang Perintis",
     loc:"Mojolangu, Lowokwaru, Malang",
     address:"Jl. Candi Sawentar No.209, Mojolangu, Lowokwaru, Kota Malang",
     rating:4.7, type:"Coworking",
@@ -237,9 +229,8 @@ const PLACES_BASE = [
       {icon:"🅿️",name:"Parkir Gratis"},{icon:"🔇",name:"Quiet Zone"},{icon:"🤝",name:"Networking Event"}
     ],
     schedule:[
-      {day:"Senin - Jumat",time:"07:00 - 21:00",closed:false},
-      {day:"Sabtu",time:"09:00 - 18:00",closed:false},
-      {day:"Minggu",time:"Tutup",closed:true}
+      {day:"Senin - Jumat",time:"09:00 - 21:00",closed:false},
+      {day:"Sabtu - Minggu",time:"Tutup",closed:true}
     ],
     tip:'"Event komunitas bulanan gratis untuk member. Cocok untuk startup yang butuh alamat domisili bisnis."',
     coords:"-7.940664420931305, 112.62518374115496",
