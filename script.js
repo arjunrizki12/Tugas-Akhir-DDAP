@@ -18,6 +18,7 @@ const PLACES_BASE = [
     ],
     tip:'"Datang weekday pagi untuk suasana paling tenang. Meja di dekat jendela selalu jadi rebutan!"',
     coords:"-7.9475961519303775, 112.61323984232841",
+    img: "https://lh3.googleusercontent.com/gps-cs-s/APNQkAGH0FyyZAHQTRaLi_Z1-4R9ajWskH5gd2hW3gOi8Wt0kSL1JIyExXkkrxR7mBKvTav9m6EKM_VtUYF-Zy3PVxkg7jJxFSkiYLY7JXvtWRvQTbpZaSGIj35Vc1syFHNKkXymFD6hTQ=w408-h272-k-no",
     bg:"linear-gradient(135deg,#2d6a4f 0%,#52b788 100%)"
   },
   {
@@ -38,6 +39,7 @@ const PLACES_BASE = [
     ],
     tip:'"Coba menu seasonal mereka yang selalu berubah tiap bulan. Tersedia pojok belajar yang lebih sepi di lantai atas."',
     coords:"-7.947013900135113, 112.61345975767158",
+    img: "https://lh3.googleusercontent.com/gps-cs-s/APNQkAE00Uc4h1cMlWhRnVlcJ3zps7REBFtqfVv3ImAcqPWiyGxym9WFjFwC-tWDPGjvmRoZBGotoxg3dJp-BLMbdOPprSZvsNAKHeH9iBW67eSdoo1h6RHq0qzLTuJ3-8q2-II24JM=w408-h272-k-no",
     bg:"linear-gradient(135deg,#74512D 0%,#c8956c 100%)"
   },
   {
@@ -45,7 +47,7 @@ const PLACES_BASE = [
     loc:"Ketawanggede, Lowokwaru, Malang",
     address:"Gedung Perpustakaan, Jl. Veteran, Ketawanggede, Kec. Lowokwaru, Kota Malang, Jawa Timur 65145",
     rating:4.6, type:"Café",
-    tags:["High-Speed WiFi","Air Conditioned","Quiet Zone"],
+    tags:["High-speed WiFi","Air Conditioned"],
     desc:"Perpustakaan Universitas Brawijaya merupakan tempat belajar nyaman dengan koleksi buku lengkap, suasana tenang, dan fasilitas pendukung akademik yang modern.",
     facilities:[
       {icon:"📶",name:"WiFi Stabil"},{icon:"❄️",name:"Full AC"},{icon:"🪑",name:"Kursi Nyaman"},
@@ -57,6 +59,7 @@ const PLACES_BASE = [
     ],
     tip:'"Suasananya Tenang! Meja kayu panjang di tengah cocok banget untuk kerja kelompok."',
     coords:"-7.953000884346238, 112.61317464862965",
+    img: "https://lh3.googleusercontent.com/gps-cs-s/APNQkAFWYBYv2TOEG07jLjEfjAB6wEnnFRMjm8m0U9AkUw0jdhuW8RJB8c55JK2_RxtmA0uW554M9nKscI5PGE5Lm2baIiL26JKAagoYD6e41gktsLuDyTGDZorbzgw9V2sI0d9O1g5OaA=w408-h305-k-no",
     bg:"linear-gradient(135deg,#5C4033 0%,#8B7355 100%)"
   },
   {
@@ -77,6 +80,7 @@ const PLACES_BASE = [
     ],
     tip:'"Lantai 2 lebih tenang dan sinyal WiFi-nya lebih kencang. Buka lebih awal dari kebanyakan kafe sekitar."',
     coords:"-7.96277353505297, 112.6226754388384",
+    img: "https://lh3.googleusercontent.com/gps-cs-s/APNQkAGLq6eLcPgXCvwr30vYP7PrdFfLJioxP3p-NKyKQYS-1-RRa080Df-4azSkqfq38c6y0kYH9Y4k8uBCYwHegfXkOTduqzjNTcSAobX8Fk9LlXUjpSUFciyO_ZqOv2mDJLE-FhAH_Q=w408-h306-k-no",
     bg:"linear-gradient(135deg,#1a1a2e 0%,#16213e 50%,#0f3460 100%)"
   },
   {
@@ -95,6 +99,7 @@ const PLACES_BASE = [
     ],
     tip:'"Tersedia paket bundling kopi + coworking per hari. Tanya barista untuk promo spesial mahasiswa."',
     coords:"-7.962909457442121, 112.62209928301726",
+    img: "https://lh3.googleusercontent.com/gps-cs-s/APNQkAFj5s5ifFqh0hTeQvtOiT1PtHe9e-YuGD74Aiif_-b6eDO1dKcm5Wxx0v8BVPtAg87YGfv4n8DcL1f1U_6KFWa2ow-2sg-rIV699oaFQM9MO_ZnIOkbG9hNIFkdwBaTJSGE_EG2KA=w408-h306-k-no",
     bg:"linear-gradient(135deg,#364f6b 0%,#3fc1c9 100%)"
   },
   {
@@ -113,6 +118,7 @@ const PLACES_BASE = [
     ],
     tip:'"Coba V60 single origin Flores mereka yang legendaris. Area outdoor di malam hari sangat nyaman."',
     coords:"-7.960348715054762, 112.62319362412306",
+    img: "https://lh3.googleusercontent.com/gps-cs-s/APNQkAEdlgVUeTQCTvaNVfpNaINW9zfisq6Q2AwDLV7Obtb30FXinxNbizW-CuOkNi1QWkfV1yMAFDiTrb00SCzsRulrJRrdIcUNWRpjclbfKEwMQmiOiGhDToviED3NZ16Yg8sxwt6QptoopAS9=w426-h240-k-no",
     bg:"linear-gradient(135deg,#c0392b 0%,#e74c3c 60%,#f39c12 100%)"
   },
   {
@@ -132,6 +138,7 @@ const PLACES_BASE = [
     ],
     tip:'"Paket makan siang + kopi tersedia di harga spesial. Tempat parkir luas, cocok yang bawa motor maupun mobil."',
     coords:"-7.946873514221842, 112.61553248177435",
+    img: "https://lh3.googleusercontent.com/gps-cs-s/APNQkAH5hZlfxgkIoorTOnaHp7ZBv1A2ltObl6GjzBBYbSEEUzfRgZtMMXhTxkw-mcT2JwhuftNvekDn6-mq96Zxau9_WxqKq2ij7st9SqffAffKcGQ8jhfm7JinpZZ96Ht0wOWHj7QCqGeShlcT=w408-h725-k-no",
     bg:"linear-gradient(135deg,#1B4332 0%,#40916C 100%)"
   },
   {
@@ -152,6 +159,7 @@ const PLACES_BASE = [
     ],
     tip:'"Reservasi private room minimal H-1. Open space tersedia walk-in. Harga per jam sangat terjangkau untuk mahasiswa."',
     coords:"-7.939781235870914, 112.61584620859371",
+    img: "https://lh3.googleusercontent.com/gps-cs-s/APNQkAFWKPdjSVcReWMf6XKW9KYkKQq8unQQqeTdOpy-4oGt4Z5SmyeMQh03dyGc0rzw-mtSpKBtFblzf7dXQtz0KYEmi4d2HZo5Z5kOk-tyFIMCfsHuecdXf6KejhgiFq4Ns8z_FJV5JbaSxB0=w224-h298-k-no",
     bg:"linear-gradient(135deg,#0d3b4a 0%,#1abc9c 100%)"
   },
   {
@@ -172,6 +180,7 @@ const PLACES_BASE = [
     ],
     tip:'"Paket bulanan jauh lebih hemat jika sering digunakan. Member dapat akses 24 jam dengan deposit tambahan."',
     coords:"-7.940486904178362, 112.61417699250783",
+    img: "https://lh3.googleusercontent.com/gps-cs-s/APNQkAEwNRjgCv-TBcXIHaWkrtnR8brc9FNnH9WTXrV2ZusEohZIQ7Isuz_jprqvwMLy0ayxwK7FSN78LSKnhSlWlJAufR_AwQoCx0t8FfdMYY1aZQHk8mRn_A4eZ-0MJxsBSgId_rPa=w428-h240-k-no",
     bg:"linear-gradient(135deg,#2c3e50 0%,#3498db 100%)"
   },
   {
@@ -192,6 +201,7 @@ const PLACES_BASE = [
     ],
     tip:'"Smart TV di ruang meeting bisa konek laptop langsung. Tersedia whiteboard besar untuk brainstorming."',
     coords:"-7.940407116928114, 112.63466793930202",
+    img: "https://lh3.googleusercontent.com/gps-cs-s/APNQkAFiQD914o5iJeHe28AhXWq6Rib-Q1lVZNyuEhJ9IyZ_0tmOlLnPUSqpxXxZ4kEsFtdib5qfl-O-glNtdC4_N6pK_ycO0Few1hxBr0hnVUY2oB6xjHn7dwRpggAr6gxJ9_cKZ5D1-JIYR1DZ=w408-h612-k-no",
     bg:"linear-gradient(135deg,#5f4b8b 0%,#af76d5 100%)"
   },
   {
@@ -212,6 +222,7 @@ const PLACES_BASE = [
     ],
     tip:'"Member premium dapat akses loker dan alamat bisnis resmi. Lokasi strategis dekat kantor pemerintahan Klojen."',
     coords:"-7.963491705629199, 112.62417112395758",
+    img: "https://lh3.googleusercontent.com/gps-cs-s/APNQkAEqCwcIYvcMbCyUXtHTIz-hmnWeYaT310hSfHXtIrgmzEs-CDM64DVCsZyCpNaNqUzKpPcWJgjKcvLQt-qKExi3BZf0C38x0GNCGIVwZPXSqtEKdQKsse1dXLBti78I0aVuUDgJ=w408-h306-k-no",
     bg:"linear-gradient(135deg,#004d40 0%,#00897b 100%)"
   },
   {
@@ -232,6 +243,7 @@ const PLACES_BASE = [
     ],
     tip:'"Event komunitas bulanan gratis untuk member. Cocok untuk startup yang butuh alamat domisili bisnis."',
     coords:"-7.940664420931305, 112.62518374115496",
+    img: "https://lh3.googleusercontent.com/gps-cs-s/APNQkAFU_eCt7BO7cG2CmUkaD5Gh_0ETbq6-WF0hQYN9kZIf_NhTkNteyvLFi1Im-LrBse1sTEcFvjRVJTdL7Td2wo2BLke5lX4GHEY1zmQo2lFSoDkeZ36oRQz1GyNTkiHcDVaD6Woq=w408-h544-k-no",
     bg:"linear-gradient(135deg,#1a237e 0%,#283593 60%,#3949ab 100%)"
   }
 ];
@@ -364,7 +376,7 @@ function renderHomeCards() {
     const d = getPlaceDist(p);
     return `
     <div class="card">
-      <div class="card-img-bg" style="background:${p.bg};height:229px;position:relative">
+      <div class="card-img-bg" style="background-image:url('${p.img}'),${p.bg};background-size:cover;background-position:center;height:229px;position:relative">
         <div class="rating-badge">⭐ ${p.rating}</div>
       </div>
       <div class="card-body">
@@ -413,7 +425,7 @@ function renderReko() {
     const d = getPlaceDist(p);
     return `
     <div class="reko-card" onclick="showPage('detail',${p.id})">
-      <div class="reko-card-img" style="background:${p.bg}">
+      <div class="reko-card-img" style="background-image:url('${p.img}'),${p.bg};background-size:cover;background-position:center">
         <div class="rating-badge">⭐ ${p.rating}</div>
       </div>
       <div class="reko-card-body">
@@ -477,7 +489,7 @@ function renderSearch(q) {
 function searchCard(p) {
   const d = getPlaceDist(p);
   return `<div class="search-card" onclick="showPage('detail',${p.id})">
-    <div class="search-card-img" style="background:${p.bg}">
+    <div class="search-card-img" style="background-image:url('${p.img}'),${p.bg};background-size:cover;background-position:center">
       <div class="rating-badge" style="top:8px;right:8px;font-size:12px;padding:4px 8px">⭐ ${p.rating}</div>
     </div>
     <div class="search-card-body">
@@ -506,7 +518,10 @@ function loadDetail(id) {
   const p = PLACES.find(x => x.id === id);
   if (!p) return;
 
-  document.getElementById('detailHeroImg').style.background = p.bg;
+  const el = document.getElementById('detailHeroImg');
+  el.style.backgroundImage = `url('${p.img}'), ${p.bg}`;
+  el.style.backgroundSize = 'cover';
+  el.style.backgroundPosition = 'center';
   document.getElementById('detailTitle').textContent = p.name;
   document.getElementById('detailRating').textContent = p.rating + '/5 (' + (reviews[p.id]?.length || 0) + ' Ulasan)';
   document.getElementById('detailDesc').textContent = p.desc;
