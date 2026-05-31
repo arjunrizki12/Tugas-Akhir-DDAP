@@ -47,7 +47,7 @@ const PLACES_BASE = [
     loc:"Ketawanggede, Lowokwaru, Malang",
     address:"Gedung Perpustakaan, Jl. Veteran, Ketawanggede, Kec. Lowokwaru, Kota Malang, Jawa Timur 65145",
     rating:4.6, type:"Café",
-    tags:["High-speed WiFi","Air Conditioned"],
+    tags:["High-speed WiFi","Air Conditioned","Quiet Zone"],
     desc:"Perpustakaan Universitas Brawijaya merupakan tempat belajar nyaman dengan koleksi buku lengkap, suasana tenang, dan fasilitas pendukung akademik yang modern.",
     facilities:[
       {icon:"📶",name:"WiFi Stabil"},{icon:"❄️",name:"Full AC"},{icon:"🪑",name:"Kursi Nyaman"},
