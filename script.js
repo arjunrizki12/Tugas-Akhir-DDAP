@@ -25,7 +25,7 @@ const PLACES_BASE = [
     loc:"Ketawanggede, Lowokwaru, Malang",
     address:"Jl. MT. Haryono No.110, Ketawanggede, Lowokwaru, Kota Malang",
     rating:4.7, type:"Café",
-    tags:["WiFi","AC","Quiet Zone"],
+    tags:["High-Speed WiFi","Air Conditioned","Quiet Zone"],
     desc:"Semusim Cafe menghadirkan konsep kafe estetik dengan nuansa musim yang berubah-ubah. Dekorasi interior yang menarik menciptakan suasana belajar yang menyenangkan dan instagrammable. Pilihan menu minuman dan makanan ringan cukup lengkap untuk menemani sesi belajar panjang.",
     facilities:[
       {icon:"📶",name:"WiFi Gratis"},{icon:"❄️",name:"Full AC"},{icon:"🔇",name:"Quiet Zone"},
@@ -45,7 +45,7 @@ const PLACES_BASE = [
     loc:"Ketawanggede, Lowokwaru, Malang",
     address:"Gedung Perpustakaan, Jl. Veteran, Ketawanggede, Kec. Lowokwaru, Kota Malang, Jawa Timur 65145",
     rating:4.6, type:"Café",
-    tags:["WiFi","AC"],
+    tags:["High-Speed WiFi","Air Conditioned"],
     desc:"Perpustakaan Universitas Brawijaya merupakan tempat belajar nyaman dengan koleksi buku lengkap, suasana tenang, dan fasilitas pendukung akademik yang modern.",
     facilities:[
       {icon:"📶",name:"WiFi Stabil"},{icon:"❄️",name:"Full AC"},{icon:"🪑",name:"Kursi Nyaman"},
