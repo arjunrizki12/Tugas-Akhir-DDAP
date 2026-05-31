@@ -1,0 +1,501 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>Study Space</title>
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700&family=Hanken+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet"/>
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<nav class="nav">
+  <div class="nav-logo" onclick="showPage('home')">Study Space</div>
+  <div class="nav-links">
+    <span class="nav-link active" id="nav-home" onclick="showPage('home')">Beranda</span>
+    <span class="nav-link" id="nav-reko" onclick="showPage('reko')">Rekomendasi</span>
+    <span class="nav-link" id="nav-search" onclick="showPage('search')">Pencarian</span>
+  </div>
+  <svg class="nav-icon" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#366461" stroke-width="2"><circle cx="11" cy="11" r="8"/><path d="M21 21l-4.35-4.35"/></svg>
+</nav>
+
+<!-- HOME -->
+<div id="page-home" class="page active">
+  <div class="hero">
+    <div class="hero-content">
+      <div class="hero-badge">
+        <svg width="10" height="12" viewBox="0 0 10 12" fill="#366461"><path d="M5 0C2.24 0 0 2.24 0 5c0 3.75 5 7 5 7s5-3.25 5-7c0-2.76-2.24-5-5-5zm0 6.5c-.83 0-1.5-.67-1.5-1.5S4.17 3.5 5 3.5 6.5 4.17 6.5 5 5.83 6.5 5 6.5z"/></svg>
+        <span>LOKASI ANDA</span>
+      </div>
+      <h1 class="hero-title">Temukan Ruang Belajar <span class="highlight">Terbaik</span> untuk<br>Produktivitas Diri Anda</h1>
+      <p class="hero-desc">Ciptakan momen fokus maksimal dengan kurasi tempat belajar yang tenang, nyaman, dan mendukung ekosistem kerja profesionalmu.</p>
+      <button class="btn-primary" onclick="setLocation()">📍 Tetapkan Lokasi</button>
+    </div>
+    <div class="map-box" id="mapBox">
+      <div class="map-placeholder" id="mapPlaceholder">
+        <svg viewBox="0 0 24 24" fill="none" stroke="#366461" stroke-width="1.5"><path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5c-1.38 0-2.5-1.12-2.5-2.5s1.12-2.5 2.5-2.5 2.5 1.12 2.5 2.5-1.12 2.5-2.5 2.5z"/></svg>
+        <p>Klik "Tetapkan Lokasi" untuk melihat peta lokasi Anda saat ini</p>
+      </div>
+      <div class="map-loading" id="mapLoading">
+        <div>🔍</div>
+        <p style="color:var(--primary);font-size:14px">Mendeteksi lokasi...</p>
+      </div>
+      <iframe id="mapFrame" title="Peta lokasi"></iframe>
+    </div>
+  </div>
+
+  <div class="section section-bg">
+    <div style="max-width:1184px;margin:0 auto">
+      <h2 class="section-title">Rekomendasi Teratas</h2>
+      <p class="section-sub" style="margin-top:8px" id="homeSubtitle">Pilihan terbaik untuk anda hari ini!</p>
+      <div class="cards-grid" id="homeCards"></div>
+    </div>
+  </div>
+
+  <div class="section">
+    <div style="max-width:1184px;margin:0 auto;text-align:center">
+      <h2 class="section-title" style="font-size:36px">Kenapa Belajar di Study Space?</h2>
+    </div>
+    <div class="bento-grid">
+      <div class="bento-card featured">
+        <div>
+          <h3 class="bento-title">Tempat Terverifikasi &amp; Terkurasi</h3>
+          <p class="bento-desc">Setiap lokasi telah melalui proses kurasi ketat untuk menjamin standar ketenangan, kenyamanan kursi, dan stabilitas koneksi internet.</p>
+        </div>
+      </div>
+      <div class="bento-card small">
+        <div class="bento-icon white" style="margin-bottom:0">
+          <svg width="30" height="24" viewBox="0 0 24 24" fill="none" stroke="#516a5d" stroke-width="2"><rect x="2" y="7" width="20" height="14" rx="2"/><path d="M16 3L12 7 8 3"/></svg>
+        </div>
+        <div style="margin-top:24px">
+          <h3 class="bento-title">Pemesanan Instan</h3>
+          <p class="bento-desc">Pilih kursi favoritmu dan selesaikan reservasi dalam hitungan detik.</p>
+        </div>
+      </div>
+      <div class="bento-card neutral">
+        <div class="bento-icon green">
+          <svg width="36" height="30" viewBox="0 0 24 24" fill="none" stroke="#366461" stroke-width="2"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/></svg>
+        </div>
+        <div>
+          <h3 class="bento-title" style="color:var(--text1)">Bebas Parkir &amp; Area Luas</h3>
+          <p class="bento-desc" style="color:var(--text2)">Nugas seharian tanpa pusing mikirin biaya parkir. Area aman untuk motor &amp; mobil.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <footer>
+    <div class="footer-brand">
+      <span>Study Space</span>
+      <p>© 2026 Study Space</p>
+    </div>
+    <div class="footer-links">
+      <a href="https://www.instagram.com/studyspace.off" target="_blank">Tentang Kami</a>
+      <a href="#" onclick="showPage('syarat');return false;">Syarat &amp; Ketentuan</a>
+    </div>
+  </footer>
+</div>
+
+<!-- REKOMENDASI -->
+<div id="page-reko" class="page">
+  <div class="reko-layout">
+    <aside class="sidebar">
+      <h3>Filter</h3>
+      <div class="filter-section">
+        <label class="filter-label">Jarak (km)</label>
+        <input type="range" min="1" max="20" value="10" id="distRange" oninput="filterCards()">
+        <div class="range-row"><span>1 km</span><span>20 km</span></div>
+      </div>
+      <div class="filter-section">
+        <label class="filter-label">Fasilitas</label>
+        <label class="cb-row"><input type="checkbox" id="f-wifi" onchange="filterCards()"> WiFi</label>
+        <label class="cb-row"><input type="checkbox" id="f-ac" onchange="filterCards()"> AC</label>
+        <label class="cb-row"><input type="checkbox" id="f-quiet" onchange="filterCards()"> Quiet Zone</label>
+        <label class="cb-row"><input type="checkbox" id="f-outlet" onchange="filterCards()"> Power Outlet</label>
+        <label class="cb-row"><input type="checkbox" id="f-parking" onchange="filterCards()"> Parkir Gratis</label>
+      </div>
+      <div class="filter-section">
+        <label class="filter-label">Rating Minimal</label>
+        <div class="rating-btns">
+          <button class="rating-btn" id="btn-40" onclick="setRating('4.0')">4.0+</button>
+          <button class="rating-btn active" id="btn-45" onclick="setRating('4.5')">4.5+</button>
+        </div>
+      </div>
+      <button class="btn-reset" onclick="resetFilter()">Atur Ulang Filter</button>
+    </aside>
+    <main class="reko-main">
+      <p class="reko-heading">Ruang Belajar Terdekat</p>
+      <div class="reko-grid" id="rekoGrid"></div>
+      <button class="btn-load" onclick="loadMore()">Muat Lebih Banyak</button>
+    </main>
+  </div>
+  <footer>
+    <div class="footer-brand"><span>Study Space</span><p>© 2026 Study Space</p></div>
+    <div class="footer-links"><a href="https://www.instagram.com/studyspace.off" target="_blank">Tentang Kami</a><a href="#" onclick="showPage('syarat');return false;">Syarat &amp; Ketentuan</a></div>
+  </footer>
+</div>
+
+<!-- PENCARIAN -->
+<div id="page-search" class="page">
+  <div class="search-page">
+    <div class="search-hero">
+      <h1>Cari Tempat Untuk Anda</h1>
+      <p>Temukan ruang tenang untuk belajar dan bekerja</p>
+    </div>
+    <div class="search-bar">
+      <svg class="search-icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><path d="M21 21l-4.35-4.35"/></svg>
+      <input type="text" id="searchInput" placeholder="Cari nama tempat, area, atau fasilitas..." oninput="doSearch()" />
+      <button class="filter-btn" onclick="toggleSearchFilter()">Filter ⚙️</button>
+    </div>
+    <div class="filter-panel" id="searchFilterPanel">
+      <p style="font-weight:600;margin-bottom:12px;color:var(--text1)">Filter Cepat</p>
+      <div style="display:flex;flex-wrap:wrap;gap:8px">
+        <button class="popular-tag" onclick="quickFilter('WiFi')">📶 High-speed WiFi</button>
+        <button class="popular-tag" onclick="quickFilter('AC')">❄️ Full AC</button>
+        <button class="popular-tag" onclick="quickFilter('Quiet')">🔇 Quiet Zone</button>
+        <button class="popular-tag" onclick="quickFilter('Café')">☕ Café</button>
+        <button class="popular-tag" onclick="quickFilter('Perpustakaan')">📚 Perpustakaan</button>
+      </div>
+    </div>
+    <div style="max-width:1052px;margin:16px auto 0">
+      <p class="popular-label">Pencarian Populer</p>
+      <div class="popular-tags">
+        <button class="popular-tag" onclick="quickFilter('Perpustakaan')">📚 Perpustakaan</button>
+        <button class="popular-tag" onclick="quickFilter('Coworking')">💼 Coworking Space</button>
+        <button class="popular-tag" onclick="quickFilter('Café')">☕ Cafe with WiFi</button>
+        <button class="popular-tag" onclick="quickFilter('Power')">🔌 Power Outlet</button>
+        <button class="popular-tag" onclick="quickFilter('AC')">❄️ Full AC</button>
+      </div>
+    </div>
+    <!-- Tambah Tempat Button -->
+    <div style="max-width:1052px;margin:24px auto 0;display:flex;justify-content:flex-end">
+      <button class="btn-add-place" onclick="openAddPlace()">+ Tambahkan Tempat</button>
+    </div>
+    <div class="search-results">
+      <div class="search-grid" id="searchGrid"></div>
+    </div>
+  </div>
+  <footer>
+    <div class="footer-brand"><span>Study Space</span><p>© 2026 Study Space. Menghadirkan Ruang Untuk Anda</p></div>
+    <div class="footer-links"><a href="https://www.instagram.com/studyspace.off" target="_blank">Tentang Kami</a><a href="#" onclick="showPage('syarat');return false;">Syarat &amp; Ketentuan</a></div>
+  </footer>
+</div>
+
+<!-- DETAIL -->
+<div id="page-detail" class="page">
+  <!-- Floating Back Button -->
+  <div class="floating-back" id="floatingBack">
+    <button class="floating-back-btn" onclick="goBack()">
+      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M19 12H5M12 19l-7-7 7-7"/></svg>
+      Kembali
+    </button>
+  </div>
+  <div class="detail-page">
+    <div class="detail-hero">
+      <div class="detail-hero-img" id="detailHeroImg"></div>
+      <div class="detail-hero-overlay">
+        <h1 id="detailTitle"></h1>
+        <div class="detail-badges">
+          <div class="badge-rating">⭐ <span id="detailRating"></span></div>
+          <div class="badge-open">Terbuka Sekarang</div>
+        </div>
+      </div>
+    </div>
+    <div class="detail-left">
+      <div class="detail-card">
+        <h2>Tentang Tempat Ini</h2>
+        <p class="detail-desc" id="detailDesc"></p>
+      </div>
+      <div class="detail-card">
+        <h2>Lokasi &amp; Alamat</h2>
+        <div style="display:flex;align-items:center;gap:8px;margin-bottom:16px">
+          <svg width="14" height="18" viewBox="0 0 14 18" fill="#366461"><path d="M7 0C3.13 0 0 3.13 0 7c0 5.25 7 11 7 11S14 12.25 14 7c0-3.87-3.13-7-7-7zm0 9.5c-1.38 0-2.5-1.12-2.5-2.5s1.12-2.5 2.5-2.5 2.5 1.12 2.5 2.5-1.12 2.5-2.5 2.5z"/></svg>
+          <span style="font-size:14px;font-weight:500;color:var(--text2)" id="detailAddress"></span>
+        </div>
+        <div class="map-detail">
+          <iframe id="detailMapFrame" class="map-detail-frame" title="Peta lokasi tempat" allowfullscreen loading="lazy"></iframe>
+        </div>
+      </div>
+      <div class="detail-card">
+        <h2>Fasilitas Unggulan</h2>
+        <div class="facilities-grid" id="detailFacilities"></div>
+      </div>
+      <div class="detail-card">
+        <h2>Ulasan Pengguna</h2>
+        <div id="reviewsList"></div>
+        <button class="btn-review" onclick="toggleReviewForm()">✏️ Tulis Ulasan</button>
+        <div class="review-form" id="reviewForm">
+          <input type="text" id="reviewName" placeholder="Nama Anda"/>
+          <div class="star-select" id="starSelect">
+            <span onclick="setStar(1)">★</span><span onclick="setStar(2)">★</span><span onclick="setStar(3)">★</span><span onclick="setStar(4)">★</span><span onclick="setStar(5)">★</span>
+          </div>
+          <textarea id="reviewText" placeholder="Tulis ulasan Anda..."></textarea>
+          <button class="btn-submit" onclick="submitReview()">Kirim Ulasan</button>
+        </div>
+      </div>
+    </div>
+    <div class="detail-sidebar">
+      <div class="quick-info">
+        <div class="info-section">
+          <p class="info-label">Jarak dari Lokasi Anda</p>
+          <div style="display:flex;align-items:baseline;gap:8px">
+            <span class="distance-big" id="detailDist"></span>
+            <span class="distance-sub" id="detailTime"></span>
+          </div>
+        </div>
+        <div class="divider"></div>
+        <div class="info-section">
+          <p class="info-label">Jam Operasional</p>
+          <div id="detailSchedule"></div>
+        </div>
+        <div class="detail-hint">
+          <p id="detailTip"></p>
+        </div>
+      </div>
+    </div>
+  </div>
+  <footer>
+    <div class="footer-brand"><span>Study Space</span><p>© 2026 Study Space</p></div>
+    <div class="footer-links"><a href="https://www.instagram.com/studyspace.off" target="_blank">Tentang Kami</a><a href="#" onclick="showPage('syarat');return false;">Syarat &amp; Ketentuan</a></div>
+  </footer>
+</div>
+
+<!-- SYARAT & KETENTUAN -->
+<div id="page-syarat" class="page">
+  <div class="syarat-page">
+    <div class="syarat-hero">
+      <div class="syarat-hero-inner">
+        <button class="back-btn-syarat" onclick="goBack()">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M19 12H5M12 19l-7-7 7-7"/></svg>
+          Kembali
+        </button>
+        <h1>Syarat &amp; Ketentuan</h1>
+        <p>Berlaku sejak 1 Januari 2026 · Terakhir diperbarui 31 Mei 2026</p>
+      </div>
+    </div>
+    <div class="syarat-content">
+      <div class="syarat-toc">
+        <p class="toc-title">Daftar Isi</p>
+        <a href="#s1" class="toc-link">1. Penerimaan Syarat</a>
+        <a href="#s2" class="toc-link">2. Layanan Study Space</a>
+        <a href="#s3" class="toc-link">3. Pendaftaran &amp; Akun</a>
+        <a href="#s4" class="toc-link">4. Penggunaan yang Diperbolehkan</a>
+        <a href="#s5" class="toc-link">5. Konten Pengguna</a>
+        <a href="#s6" class="toc-link">6. Kebijakan Privasi</a>
+        <a href="#s7" class="toc-link">7. Hak Kekayaan Intelektual</a>
+        <a href="#s8" class="toc-link">8. Batasan Tanggung Jawab</a>
+        <a href="#s9" class="toc-link">9. Perubahan Layanan</a>
+        <a href="#s10" class="toc-link">10. Kontak Kami</a>
+      </div>
+      <div class="syarat-body">
+
+        <section class="syarat-section" id="s1">
+          <div class="syarat-num">01</div>
+          <h2>Penerimaan Syarat</h2>
+          <p>Dengan mengakses atau menggunakan platform Study Space — baik melalui situs web, aplikasi mobile, maupun layanan terkait — Anda menyatakan telah membaca, memahami, dan menyetujui untuk terikat oleh Syarat &amp; Ketentuan ini secara penuh.</p>
+          <p>Jika Anda tidak menyetujui salah satu dari ketentuan yang tercantum, harap hentikan penggunaan layanan kami. Penggunaan berkelanjutan atas layanan Study Space setelah tanggal berlakunya perubahan dianggap sebagai persetujuan atas perubahan tersebut.</p>
+          <div class="syarat-notice">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#366461" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M12 8v4M12 16h.01"/></svg>
+            <span>Pengguna di bawah usia 17 tahun wajib mendapat persetujuan orang tua atau wali yang sah sebelum menggunakan layanan ini.</span>
+          </div>
+        </section>
+
+        <section class="syarat-section" id="s2">
+          <div class="syarat-num">02</div>
+          <h2>Layanan Study Space</h2>
+          <p>Study Space adalah platform digital yang menyediakan informasi, direktori, dan rekomendasi ruang belajar — termasuk kafe, perpustakaan, dan coworking space — di Kota Malang dan sekitarnya. Layanan kami meliputi:</p>
+          <ul class="syarat-list">
+            <li>Direktori tempat belajar yang dikurasi secara manual dan terverifikasi.</li>
+            <li>Sistem rekomendasi berbasis lokasi pengguna (GPS).</li>
+            <li>Fitur pencarian dan filter berdasarkan fasilitas, jarak, dan rating.</li>
+            <li>Platform ulasan dan rating dari pengguna terdaftar.</li>
+            <li>Fitur penambahan tempat belajar baru oleh komunitas pengguna.</li>
+          </ul>
+          <p>Kami berhak menambah, mengubah, atau menghentikan fitur-fitur tertentu sewaktu-waktu tanpa pemberitahuan sebelumnya, selama tidak melanggar hak-hak pengguna yang sudah terdaftar.</p>
+        </section>
+
+        <section class="syarat-section" id="s3">
+          <div class="syarat-num">03</div>
+          <h2>Pendaftaran &amp; Akun</h2>
+          <p>Sebagian fitur Study Space dapat digunakan tanpa akun. Namun, untuk fitur seperti menulis ulasan dan menambahkan tempat baru, Anda diwajibkan membuat akun dengan ketentuan berikut:</p>
+          <ul class="syarat-list">
+            <li>Informasi yang Anda berikan saat pendaftaran harus akurat, lengkap, dan terkini.</li>
+            <li>Anda bertanggung jawab penuh atas keamanan kata sandi dan aktivitas yang terjadi pada akun Anda.</li>
+            <li>Satu orang hanya diperbolehkan memiliki satu akun aktif.</li>
+            <li>Akun tidak dapat dipindahtangankan kepada pihak lain.</li>
+            <li>Study Space berhak menangguhkan atau menghapus akun yang melanggar ketentuan ini.</li>
+          </ul>
+        </section>
+
+        <section class="syarat-section" id="s4">
+          <div class="syarat-num">04</div>
+          <h2>Penggunaan yang Diperbolehkan</h2>
+          <p>Dengan menggunakan Study Space, Anda berjanji untuk <strong>tidak</strong> melakukan hal-hal berikut:</p>
+          <ul class="syarat-list">
+            <li>Menyebarkan konten yang bersifat palsu, menyesatkan, atau penipuan tentang suatu tempat.</li>
+            <li>Menggunakan platform untuk tujuan komersial tanpa izin tertulis dari Study Space.</li>
+            <li>Melakukan scraping, crawling, atau pengambilan data massal dari platform kami.</li>
+            <li>Menyebarkan ulasan palsu atau melakukan manipulasi sistem rating.</li>
+            <li>Mengunggah konten yang mengandung unsur SARA, pornografi, atau kekerasan.</li>
+            <li>Mengakses atau mencoba mengakses bagian sistem yang tidak diotorisasi untuk Anda.</li>
+          </ul>
+          <p>Pelanggaran terhadap ketentuan di atas dapat mengakibatkan penangguhan akun, penghapusan konten, dan/atau tindakan hukum sesuai peraturan yang berlaku.</p>
+        </section>
+
+        <section class="syarat-section" id="s5">
+          <div class="syarat-num">05</div>
+          <h2>Konten Pengguna</h2>
+          <p>Ketika Anda mengirimkan ulasan, foto, atau menambahkan data tempat baru ke platform Study Space, Anda memberikan kepada kami lisensi non-eksklusif, royalti-bebas, dan berlaku secara global untuk menggunakan, memperbanyak, memodifikasi, dan menampilkan konten tersebut dalam layanan kami.</p>
+          <p>Anda menyatakan bahwa:</p>
+          <ul class="syarat-list">
+            <li>Konten yang Anda kirimkan adalah karya orisinal atau Anda memiliki hak untuk membagikannya.</li>
+            <li>Ulasan yang Anda tulis merupakan pengalaman nyata dan jujur.</li>
+            <li>Informasi tempat yang Anda tambahkan adalah akurat sesuai pengetahuan terbaik Anda.</li>
+          </ul>
+          <p>Study Space berhak meninjau, mengedit, atau menghapus konten yang dianggap tidak sesuai dengan panduan komunitas kami, tanpa pemberitahuan sebelumnya.</p>
+        </section>
+
+        <section class="syarat-section" id="s6">
+          <div class="syarat-num">06</div>
+          <h2>Kebijakan Privasi</h2>
+          <p>Study Space menghargai privasi Anda. Data yang kami kumpulkan meliputi:</p>
+          <ul class="syarat-list">
+            <li><strong>Data Lokasi:</strong> Digunakan untuk memberikan rekomendasi tempat terdekat. Data lokasi hanya diproses di perangkat Anda dan tidak disimpan di server kami tanpa persetujuan eksplisit.</li>
+            <li><strong>Data Akun:</strong> Nama, alamat email, dan preferensi pengguna disimpan dengan aman menggunakan enkripsi standar industri.</li>
+            <li><strong>Data Penggunaan:</strong> Log aktivitas anonim digunakan untuk meningkatkan performa layanan.</li>
+          </ul>
+          <p>Kami tidak menjual data pribadi Anda kepada pihak ketiga. Data Anda hanya digunakan sesuai tujuan layanan Study Space dan sesuai ketentuan Undang-Undang Perlindungan Data Pribadi (UU PDP) Republik Indonesia.</p>
+          <div class="syarat-notice">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#366461" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M12 8v4M12 16h.01"/></svg>
+            <span>Fitur "Tetapkan Lokasi" hanya aktif setelah Anda memberikan izin secara eksplisit melalui browser. Anda dapat mencabut izin ini kapan saja melalui pengaturan browser.</span>
+          </div>
+        </section>
+
+        <section class="syarat-section" id="s7">
+          <div class="syarat-num">07</div>
+          <h2>Hak Kekayaan Intelektual</h2>
+          <p>Seluruh konten yang terdapat di platform Study Space — termasuk namun tidak terbatas pada nama merek, logo, desain antarmuka, teks kuratorial, dan sistem rekomendasi — merupakan hak milik eksklusif Study Space dan dilindungi oleh hukum kekayaan intelektual yang berlaku di Indonesia.</p>
+          <p>Anda tidak diperkenankan menyalin, mendistribusikan, atau membuat karya turunan dari konten kami tanpa izin tertulis. Penggunaan merek Study Space untuk keperluan promosi pribadi atau komersial tanpa izin resmi adalah pelanggaran yang dapat dituntut secara hukum.</p>
+        </section>
+
+        <section class="syarat-section" id="s8">
+          <div class="syarat-num">08</div>
+          <h2>Batasan Tanggung Jawab</h2>
+          <p>Study Space menyediakan platform sebagai sarana informasi dan direktori. Kami tidak bertanggung jawab atas:</p>
+          <ul class="syarat-list">
+            <li>Ketidakakuratan informasi yang diberikan oleh pengguna (ulasan, tambah tempat, dll.).</li>
+            <li>Perubahan operasional tempat (jam buka, fasilitas, harga) yang tidak dilaporkan ke platform.</li>
+            <li>Kerugian langsung maupun tidak langsung yang timbul dari penggunaan informasi di platform.</li>
+            <li>Gangguan layanan yang disebabkan oleh faktor di luar kendali kami (force majeure, masalah jaringan, dll.).</li>
+          </ul>
+          <p>Informasi di platform Study Space disediakan "sebagaimana adanya" (<em>as-is</em>) dan kami tidak memberikan jaminan atas kelengkapan atau ketersediaannya secara terus-menerus.</p>
+        </section>
+
+        <section class="syarat-section" id="s9">
+          <div class="syarat-num">09</div>
+          <h2>Perubahan Layanan</h2>
+          <p>Study Space berhak mengubah Syarat &amp; Ketentuan ini sewaktu-waktu. Perubahan material akan diumumkan melalui:</p>
+          <ul class="syarat-list">
+            <li>Notifikasi di halaman utama platform selama minimal 7 hari sebelum berlaku.</li>
+            <li>Email kepada pengguna terdaftar (jika tersedia data email).</li>
+            <li>Pembaruan tanggal "Terakhir diperbarui" di bagian atas halaman ini.</li>
+          </ul>
+          <p>Penggunaan layanan Study Space setelah perubahan berlaku dianggap sebagai persetujuan atas syarat yang baru.</p>
+        </section>
+
+        <section class="syarat-section" id="s10">
+          <div class="syarat-num">10</div>
+          <h2>Kontak Kami</h2>
+          <p>Jika Anda memiliki pertanyaan, masukan, atau kekhawatiran terkait Syarat &amp; Ketentuan ini, silakan hubungi tim kami melalui:</p>
+          <div class="contact-cards">
+            <div class="contact-card">
+              <div class="contact-icon">📧</div>
+              <div>
+                <p class="contact-label">Email Resmi</p>
+                <p class="contact-val">hello@studyspace.id</p>
+              </div>
+            </div>
+            <div class="contact-card">
+              <div class="contact-icon">📱</div>
+              <div>
+                <p class="contact-label">Instagram</p>
+                <p class="contact-val">@studyspace.off</p>
+              </div>
+            </div>
+            <div class="contact-card">
+              <div class="contact-icon">📍</div>
+              <div>
+                <p class="contact-label">Domisili</p>
+                <p class="contact-val">Malang, Jawa Timur, Indonesia</p>
+              </div>
+            </div>
+          </div>
+          <p style="margin-top:24px;color:var(--text2);font-size:14px">Kami berusaha merespons setiap pertanyaan dalam 2–3 hari kerja.</p>
+        </section>
+
+      </div>
+    </div>
+  </div>
+  <footer>
+    <div class="footer-brand"><span>Study Space</span><p>© 2026 Study Space</p></div>
+    <div class="footer-links"><a href="https://www.instagram.com/studyspace.off" target="_blank">Tentang Kami</a><a href="#" onclick="showPage('syarat');return false;">Syarat &amp; Ketentuan</a></div>
+  </footer>
+</div>
+
+<!-- MODAL TAMBAH TEMPAT -->
+<div class="modal-overlay" id="addPlaceModal">
+  <div class="modal-box">
+    <div class="modal-header">
+      <h2>Tambahkan Tempat Belajar</h2>
+      <button class="modal-close" onclick="closeAddPlace()">✕</button>
+    </div>
+    <div class="modal-body">
+      <p class="modal-desc">Bantu komunitas Study Space berkembang! Tambahkan tempat belajar favorit Anda agar bisa ditemukan oleh pengguna lain.</p>
+      <div class="form-group">
+        <label>Nama Tempat <span class="req">*</span></label>
+        <input type="text" id="ap-name" placeholder="Contoh: Kopi Kenangan Malang" />
+      </div>
+      <div class="form-group">
+        <label>Alamat Lengkap <span class="req">*</span></label>
+        <input type="text" id="ap-address" placeholder="Jl. Contoh No.1, Kecamatan, Kota Malang" />
+      </div>
+      <div class="form-group">
+        <label>Jenis Tempat <span class="req">*</span></label>
+        <select id="ap-type">
+          <option value="">-- Pilih Jenis --</option>
+          <option value="Café">Café / Coffee Shop</option>
+          <option value="Perpustakaan">Perpustakaan</option>
+          <option value="Coworking">Coworking Space</option>
+          <option value="Lainnya">Lainnya</option>
+        </select>
+      </div>
+      <div class="form-group">
+        <label>Fasilitas Tersedia</label>
+        <div class="form-checks">
+          <label class="cb-row"><input type="checkbox" id="ap-wifi"> WiFi</label>
+          <label class="cb-row"><input type="checkbox" id="ap-ac"> AC</label>
+          <label class="cb-row"><input type="checkbox" id="ap-quiet"> Quiet Zone</label>
+          <label class="cb-row"><input type="checkbox" id="ap-outlet"> Power Outlet</label>
+          <label class="cb-row"><input type="checkbox" id="ap-parking"> Parkir Gratis</label>
+          <label class="cb-row"><input type="checkbox" id="ap-coffee"> Café / Minuman</label>
+        </div>
+      </div>
+      <div class="form-group">
+        <label>Deskripsi Singkat</label>
+        <textarea id="ap-desc" placeholder="Ceritakan suasana, keunikan, atau tips untuk tempat ini..." rows="3"></textarea>
+      </div>
+      <div class="form-group">
+        <label>Nama Kontributor <span class="req">*</span></label>
+        <input type="text" id="ap-contrib" placeholder="Nama Anda" />
+      </div>
+    </div>
+    <div class="modal-footer">
+      <button class="btn-cancel" onclick="closeAddPlace()">Batal</button>
+      <button class="btn-submit-place" onclick="submitPlace()">Kirim Tempat</button>
+    </div>
+  </div>
+</div>
+
+<script src="script.js"></script>
+</body>
+</html>
