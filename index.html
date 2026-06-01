@@ -1,3 +1,4 @@
+cat > /mnt/user-data/outputs/index.html << 'HTMLEOF'
 <!DOCTYPE html>
 <html lang="id">
 <head>
@@ -167,7 +168,6 @@
         <button class="popular-tag" onclick="quickFilter('AC')">❄️ Full AC</button>
       </div>
     </div>
-    <!-- Tambah Tempat Button -->
     <div style="max-width:1052px;margin:24px auto 0;display:flex;justify-content:flex-end">
       <button class="btn-add-place" onclick="openAddPlace()">+ Tambahkan Tempat</button>
     </div>
@@ -183,7 +183,6 @@
 
 <!-- DETAIL -->
 <div id="page-detail" class="page">
-  <!-- Floating Back Button -->
   <div class="floating-back" id="floatingBack">
     <button class="floating-back-btn" onclick="goBack()">
       <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M19 12H5M12 19l-7-7 7-7"/></svg>
@@ -233,6 +232,21 @@
           <button class="btn-submit" onclick="submitReview()">Kirim Ulasan</button>
         </div>
       </div>
+
+      <!-- HAPUS TEMPAT — hanya muncul untuk tempat komunitas -->
+      <div id="deleteUserPlaceWrap" style="display:none">
+        <button class="btn-delete-place">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <polyline points="3 6 5 6 21 6"/>
+            <path d="M19 6l-1 14a2 2 0 01-2 2H8a2 2 0 01-2-2L5 6"/>
+            <path d="M10 11v6M14 11v6"/>
+            <path d="M9 6V4a1 1 0 011-1h4a1 1 0 011 1v2"/>
+          </svg>
+          Hapus Tempat Ini
+        </button>
+        <p class="delete-note">Hanya tempat yang ditambahkan komunitas yang dapat dihapus.</p>
+      </div>
+
     </div>
     <div class="detail-sidebar">
       <div class="quick-info">
@@ -286,7 +300,6 @@
         <a href="#s8" class="toc-link">8. Kontak Kami</a>
       </div>
       <div class="syarat-body">
-
         <section class="syarat-section" id="s1">
           <div class="syarat-num">01</div>
           <h2>Penerimaan Syarat</h2>
@@ -297,7 +310,6 @@
             <span>Pengguna di bawah usia 17 tahun wajib mendapat persetujuan orang tua atau wali yang sah sebelum menggunakan layanan ini.</span>
           </div>
         </section>
-
         <section class="syarat-section" id="s2">
           <div class="syarat-num">02</div>
           <h2>Layanan Study Space</h2>
@@ -311,7 +323,6 @@
           </ul>
           <p>Kami berhak menambah, mengubah, atau menghentikan fitur-fitur tertentu sewaktu-waktu tanpa pemberitahuan sebelumnya, selama tidak melanggar hak-hak pengguna yang sudah terdaftar.</p>
         </section>
-
         <section class="syarat-section" id="s3">
           <div class="syarat-num">03</div>
           <h2>Penggunaan yang tidak diperbolehkan</h2>
@@ -326,12 +337,10 @@
           </ul>
           <p>Pelanggaran terhadap ketentuan di atas dapat mengakibatkan penangguhan akun, penghapusan konten, dan/atau tindakan hukum sesuai peraturan yang berlaku.</p>
         </section>
-
         <section class="syarat-section" id="s4">
           <div class="syarat-num">04</div>
           <h2>Konten Pengguna</h2>
           <p>Ketika Anda mengirimkan ulasan, foto, atau menambahkan data tempat baru ke platform Study Space, Anda memberikan kepada kami lisensi non-eksklusif, royalti-bebas, dan berlaku secara global untuk menggunakan, memperbanyak, memodifikasi, dan menampilkan konten tersebut dalam layanan kami.</p>
-          <p>Anda menyatakan bahwa:</p>
           <ul class="syarat-list">
             <li>Konten yang Anda kirimkan adalah karya orisinal atau Anda memiliki hak untuk membagikannya.</li>
             <li>Ulasan yang Anda tulis merupakan pengalaman nyata dan jujur.</li>
@@ -339,7 +348,6 @@
           </ul>
           <p>Study Space berhak meninjau, mengedit, atau menghapus konten yang dianggap tidak sesuai dengan panduan komunitas kami, tanpa pemberitahuan sebelumnya.</p>
         </section>
-
         <section class="syarat-section" id="s5">
           <div class="syarat-num">05</div>
           <h2>Kebijakan Privasi</h2>
@@ -352,7 +360,6 @@
             <span>Fitur "Tetapkan Lokasi" hanya aktif setelah Anda memberikan izin secara eksplisit melalui browser. Anda dapat mencabut izin ini kapan saja melalui pengaturan browser.</span>
           </div>
         </section>
-
         <section class="syarat-section" id="s6">
           <div class="syarat-num">06</div>
           <h2>Batasan Tanggung Jawab</h2>
@@ -365,7 +372,6 @@
           </ul>
           <p>Informasi di platform Study Space disediakan "sebagaimana adanya" (<em>as-is</em>) dan kami tidak memberikan jaminan atas kelengkapan atau ketersediaannya secara terus-menerus.</p>
         </section>
-
         <section class="syarat-section" id="s7">
           <div class="syarat-num">07</div>
           <h2>Perubahan Layanan</h2>
@@ -377,7 +383,6 @@
           </ul>
           <p>Penggunaan layanan Study Space setelah perubahan berlaku dianggap sebagai persetujuan atas syarat yang baru.</p>
         </section>
-
         <section class="syarat-section" id="s8">
           <div class="syarat-num">08</div>
           <h2>Kontak Kami</h2>
@@ -385,29 +390,19 @@
           <div class="contact-cards">
             <div class="contact-card">
               <div class="contact-icon">📧</div>
-              <div>
-                <p class="contact-label">Email Resmi</p>
-                <p class="contact-val">hellostudyspace.id@gmail.com</p>
-              </div>
+              <div><p class="contact-label">Email Resmi</p><p class="contact-val">hellostudyspace.id@gmail.com</p></div>
             </div>
             <div class="contact-card">
               <div class="contact-icon">📱</div>
-              <div>
-                <p class="contact-label">Instagram</p>
-                <p class="contact-val">@studyspace.off</p>
-              </div>
+              <div><p class="contact-label">Instagram</p><p class="contact-val">@studyspace.off</p></div>
             </div>
             <div class="contact-card">
               <div class="contact-icon">📍</div>
-              <div>
-                <p class="contact-label">Domisili</p>
-                <p class="contact-val">Malang, Jawa Timur, Indonesia</p>
-              </div>
+              <div><p class="contact-label">Domisili</p><p class="contact-val">Malang, Jawa Timur, Indonesia</p></div>
             </div>
           </div>
           <p style="margin-top:24px;color:var(--text2);font-size:14px">Kami berusaha merespons setiap pertanyaan dalam 2–3 hari kerja.</p>
         </section>
-
       </div>
     </div>
   </div>
@@ -426,24 +421,74 @@
     </div>
     <div class="modal-body">
       <p class="modal-desc">Bantu komunitas Study Space berkembang! Tambahkan tempat belajar favorit Anda agar bisa ditemukan oleh pengguna lain.</p>
+
       <div class="form-group">
         <label>Nama Tempat <span class="req">*</span></label>
         <input type="text" id="ap-name" placeholder="Contoh: Kopi Kenangan Malang" />
       </div>
+
       <div class="form-group">
         <label>Alamat Lengkap <span class="req">*</span></label>
         <input type="text" id="ap-address" placeholder="Jl. Contoh No.1, Kecamatan, Kota Malang" />
       </div>
+
       <div class="form-group">
         <label>Jenis Tempat <span class="req">*</span></label>
         <select id="ap-type">
           <option value="">-- Pilih Jenis --</option>
-          <option value="Café">Café / Coffee Shop</option>
+          <option value="Café">Cafe / Coffee Shop</option>
           <option value="Perpustakaan">Perpustakaan</option>
           <option value="Coworking">Coworking Space</option>
+          <option value="Coworking">Tempat Umum</option>
           <option value="Lainnya">Lainnya</option>
         </select>
       </div>
+
+      <!-- KOORDINAT -->
+      <div class="form-group">
+        <label>Koordinat Lokasi <span class="req">*</span></label>
+        <div class="coords-notice">
+          <span>📌</span>
+          <span>Buka <strong>Google Maps</strong> → klik kanan tepat di lokasi → ketik dua angka yang muncul (Latitude, Longitude).</span>
+        </div>
+        <div class="coords-row">
+          <div class="coords-col">
+            <span class="coords-sublabel">Latitude</span>
+            <input type="number" id="ap-lat" placeholder="-7.9475" step="any" oninput="previewCoords()" />
+          </div>
+          <div class="coords-col">
+            <span class="coords-sublabel">Longitude</span>
+            <input type="number" id="ap-lng" placeholder="112.6132" step="any" oninput="previewCoords()" />
+          </div>
+        </div>
+        <p id="ap-coords-hint" class="coords-hint"></p>
+        <div id="ap-map-preview-wrap" class="ap-map-wrap" style="display:none">
+          <iframe id="ap-map-preview" class="ap-map-frame" title="Preview peta" allowfullscreen loading="lazy"></iframe>
+        </div>
+      </div>
+
+      <!-- FOTO -->
+      <div class="form-group">
+        <label>Foto Tempat</label>
+        <div class="photo-upload-area" onclick="document.getElementById('ap-photo').click()">
+          <input type="file" id="ap-photo" accept="image/*" style="display:none" onchange="handlePhotoUpload(this)" />
+          <div class="photo-upload-inner">
+            <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="#366461" stroke-width="1.5">
+              <rect x="3" y="3" width="18" height="18" rx="3"/>
+              <circle cx="8.5" cy="8.5" r="1.5"/>
+              <path d="M21 15l-5-5L5 21"/>
+            </svg>
+            <span id="ap-photo-label">📷 Klik untuk upload foto</span>
+            <span class="photo-hint">JPG / PNG / WEBP · Maks 5 MB</span>
+          </div>
+        </div>
+        <div id="ap-photo-preview-wrap" style="display:none;margin-top:10px;position:relative">
+          <img id="ap-photo-preview" src="" alt="Preview"
+               style="width:100%;height:160px;object-fit:cover;border-radius:10px;border:1px solid #c0c8c7" />
+          <button onclick="removePhoto()" class="photo-remove-btn" title="Hapus foto">✕</button>
+        </div>
+      </div>
+
       <div class="form-group">
         <label>Fasilitas Tersedia</label>
         <div class="form-checks">
@@ -455,10 +500,17 @@
           <label class="cb-row"><input type="checkbox" id="ap-coffee"> Café / Minuman</label>
         </div>
       </div>
+
+      <div class="form-group">
+        <label>Jam Operasional</label>
+        <div id="ap-schedule-list" style="display:flex;flex-direction:column;gap:10px;margin-top:4px"></div>
+      </div>
+
       <div class="form-group">
         <label>Deskripsi Singkat</label>
         <textarea id="ap-desc" placeholder="Ceritakan suasana, keunikan, atau tips untuk tempat ini..." rows="3"></textarea>
       </div>
+
       <div class="form-group">
         <label>Nama Kontributor <span class="req">*</span></label>
         <input type="text" id="ap-contrib" placeholder="Nama Anda" />
@@ -467,6 +519,30 @@
     <div class="modal-footer">
       <button class="btn-cancel" onclick="closeAddPlace()">Batal</button>
       <button class="btn-submit-place" onclick="submitPlace()">Kirim Tempat</button>
+    </div>
+  </div>
+</div>
+
+<!-- MODAL KONFIRMASI HAPUS -->
+<div class="modal-overlay" id="confirmDeleteModal">
+  <div class="modal-box modal-box--sm">
+    <div class="modal-header">
+      <h2>Hapus Tempat</h2>
+      <button class="modal-close" onclick="cancelDelete()">✕</button>
+    </div>
+    <div class="modal-body" style="gap:12px">
+      <div class="delete-modal-icon">🗑️</div>
+      <p style="text-align:center;color:var(--text2);font-size:15px;line-height:24px">
+        Apakah kamu yakin ingin menghapus<br>
+        <strong id="deletePlaceName" style="color:var(--text1)"></strong>?
+      </p>
+      <p style="text-align:center;font-size:13px;color:var(--text2);background:rgba(186,26,26,.06);border:1px solid rgba(186,26,26,.15);border-radius:8px;padding:10px 14px">
+        ⚠️ Tempat dan semua ulasannya akan dihapus permanen dan <strong>tidak bisa dikembalikan</strong>.
+      </p>
+    </div>
+    <div class="modal-footer" style="justify-content:center;gap:12px">
+      <button class="btn-cancel" onclick="cancelDelete()">Batal</button>
+      <button class="btn-confirm-delete" id="btnConfirmDelete">Ya, Hapus</button>
     </div>
   </div>
 </div>
