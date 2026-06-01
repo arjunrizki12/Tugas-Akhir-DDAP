@@ -317,6 +317,13 @@ let selectedStar = 0;
 let minRating = 4.5;
 let showCount = 4;
 
+function getDisplayRating(p) {
+  const r = reviews[p.id] || [];
+  if (r.length === 0) return p.rating;
+  const avg = r.reduce((sum, x) => sum + x.stars, 0) / r.length;
+  return Math.round(avg * 10) / 10;
+}
+
 // ==================== HAVERSINE DISTANCE ====================
 function haversine(lat1, lng1, lat2, lng2) {
   const R = 6371;
@@ -425,7 +432,7 @@ function renderHomeCards() {
     return `
     <div class="card">
       <div class="card-img-bg" style="background-image:url('${p.img}'),${p.bg};background-size:cover;background-position:center;height:229px;position:relative">
-        <div class="rating-badge">⭐ ${p.rating}</div>
+        <div class="rating-badge">⭐ ${getDisplayRating(p)}</div>
       </div>
       <div class="card-body">
         <div>
@@ -474,7 +481,7 @@ function renderReko() {
     return `
     <div class="reko-card" onclick="showPage('detail',${p.id})">
       <div class="reko-card-img" style="background-image:url('${p.img}'),${p.bg};background-size:cover;background-position:center">
-        <div class="rating-badge">⭐ ${p.rating}</div>
+        <div class="rating-badge">⭐ ${getDisplayRating(p)}</div>
       </div>
       <div class="reko-card-body">
         <div class="reko-card-row">
@@ -536,7 +543,7 @@ function searchCard(p) {
   const d = getPlaceDist(p);
   return `<div class="search-card" onclick="showPage('detail',${p.id})">
     <div class="search-card-img" style="background-image:url('${p.img}'),${p.bg};background-size:cover;background-position:center">
-      <div class="rating-badge" style="top:8px;right:8px;font-size:12px;padding:4px 8px">⭐ ${p.rating}</div>
+      <div class="rating-badge" style="top:8px;right:8px;font-size:12px;padding:4px 8px">⭐ ${getDisplayRating(p)}</div>
     </div>
     <div class="search-card-body">
       <div>
@@ -680,7 +687,14 @@ saveReviews(currentPlaceId);
   document.getElementById('reviewForm').classList.remove('show');
 
   const p = PLACES.find(x => x.id === currentPlaceId);
-  if (p) document.getElementById('detailRating').textContent = p.rating + '/5 (' + reviews[currentPlaceId].length + ' Ulasan)';
+    if (p) {
+      const allReviews = reviews[currentPlaceId];
+      if (allReviews.length > 0) {
+        const avg = allReviews.reduce((sum, r) => sum + r.stars, 0) / allReviews.length;
+        p.rating = Math.round(avg * 10) / 10;
+      }
+      document.getElementById('detailRating').textContent = p.rating + '/5 (' + allReviews.length + ' Ulasan)';
+    }
   alert('Ulasan berhasil dikirim! Terima kasih.');
 }
 // SCHEDULE ADD //
