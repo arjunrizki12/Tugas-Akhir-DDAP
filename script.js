@@ -242,49 +242,27 @@ const PLACES_BASE = [
 const STORAGE_KEY_PLACES  = 'studyspace_user_places';
 const STORAGE_KEY_REVIEWS = 'studyspace_reviews';
 
-// ==================== PERSISTENCE HELPERS ====================
-
 function saveUserPlaces() {
   const userPlaces = PLACES.filter(p => p.isUserAdded);
-  try {
-    localStorage.setItem(STORAGE_KEY_PLACES, JSON.stringify(userPlaces));
-  } catch(e) {
-    console.warn('localStorage penuh atau tidak tersedia:', e);
+  userPlaces.forEach(p => saveUserPlaceToFirebase(p));
+}
+
+async function loadUserPlaces() {
+  return await loadUserPlacesFromFirebase();
+}
+
+function saveReviews(placeId) {
+  if (placeId !== undefined) {
+    saveReviewsToFirebase(placeId, reviews[placeId] || []);
+  } else {
+    Object.keys(reviews).forEach(id => {
+      saveReviewsToFirebase(id, reviews[id] || []);
+    });
   }
 }
 
-/** Muat tempat komunitas dari localStorage */
-function loadUserPlaces() {
-  try {
-    const raw = localStorage.getItem(STORAGE_KEY_PLACES);
-    return raw ? JSON.parse(raw) : [];
-  } catch(e) {
-    console.warn('Gagal memuat data tempat:', e);
-    return [];
-  }
-}
-
-/** Simpan SEMUA ulasan ke localStorage (hanya id > 12, plus ulasan baru di id ≤ 12) */
-function saveReviews() {
-  try {
-    // Simpan ulasan yang bukan ulasan default awal (hanya yang sudah ditambah user)
-    // Strategi: simpan seluruh object reviews, kecuali kita bedakan mana yang "asli"
-    // Kita simpan semua reviews dengan flag
-    localStorage.setItem(STORAGE_KEY_REVIEWS, JSON.stringify(reviews));
-  } catch(e) {
-    console.warn('localStorage penuh atau tidak tersedia:', e);
-  }
-}
-
-/** Muat semua ulasan tersimpan dari localStorage */
-function loadSavedReviews() {
-  try {
-    const raw = localStorage.getItem(STORAGE_KEY_REVIEWS);
-    return raw ? JSON.parse(raw) : null;
-  } catch(e) {
-    console.warn('Gagal memuat data ulasan:', e);
-    return null;
-  }
+async function loadSavedReviews() {
+  return await loadAllReviewsFromFirebase();
 }
 
 // ==================== STATE ====================
@@ -297,28 +275,40 @@ PLACES_BASE.forEach(p => {
   reviews[p.id] = [];
 });
 
-// ==================== INIT PERSISTENT DATA ====================
-(function initFromStorage() {
-  // 1. Muat tempat komunitas yang pernah ditambahkan
-  const savedUserPlaces = loadUserPlaces();
+async function initFromFirebase() {
+  const savedUserPlaces = await loadUserPlacesFromFirebase();
   if (savedUserPlaces.length > 0) {
-    PLACES = [...PLACES_BASE, ...savedUserPlaces];
-    // Inisialisasi ulasan kosong untuk tempat komunitas (akan diisi dari savedReviews)
     savedUserPlaces.forEach(p => {
+      if (!PLACES.find(x => x.id === p.id)) {
+        PLACES.push(p);
+      }
       if (!reviews[p.id]) reviews[p.id] = [];
     });
   }
 
-  // 2. Muat ulasan tersimpan (termasuk ulasan baru di tempat base maupun komunitas)
-  const savedReviews = loadSavedReviews();
-  if (savedReviews) {
-    // Gabungkan: untuk tempat base, gabungkan ulasan default + ulasan tersimpan baru
-    // (Kita simpan SELURUH reviews, jadi tinggal pakai langsung)
-    Object.keys(savedReviews).forEach(id => {
-      reviews[id] = savedReviews[id];
+  const savedReviews = await loadAllReviewsFromFirebase();
+  Object.keys(savedReviews).forEach(id => {
+    reviews[id] = savedReviews[id];
+  });
+
+  renderHomeCards();
+  renderSearch('');
+
+  listenToPlaces(updatedPlaces => {
+    PLACES = [...PLACES_BASE];
+    updatedPlaces.forEach(p => {
+      if (!PLACES.find(x => x.id === p.id)) {
+        PLACES.push(p);
+        if (!reviews[p.id]) reviews[p.id] = [];
+      }
     });
-  }
-})();
+    renderHomeCards();
+    renderSearch('');
+    if (currentPage === 'reko') renderReko();
+  });
+}
+
+initFromFirebase();
 
 let currentPage = 'home';
 let prevPage = 'home';
@@ -631,8 +621,7 @@ function cancelDelete() {
 function executeDeletePlace(id) {
   PLACES = PLACES.filter(p => p.id !== id);
   delete reviews[id];
-  saveUserPlaces();
-  saveReviews();
+  deleteUserPlaceFromFirebase(id);
   cancelDelete();
   const dest = (prevPage === 'reko' || prevPage === 'search') ? prevPage : 'home';
   showPage(dest);
@@ -675,8 +664,8 @@ function submitReview() {
     date: new Date().toLocaleDateString('id-ID', {day:'numeric', month:'long', year:'numeric'})
   });
 
-  // 💾 Simpan ulasan ke localStorage
-  saveReviews();
+  // 💾 Simpan ulasan ke Firebase
+saveReviews(currentPlaceId);
 
   renderReviews(currentPlaceId);
   document.getElementById('reviewName').value = '';
@@ -887,9 +876,9 @@ function submitPlace() {
   PLACES.push(newPlace);
   reviews[newId] = [];
 
-  // 💾 Simpan ke localStorage
-  saveUserPlaces();
-  saveReviews();
+  // 💾 Simpan ke Firebase
+  saveUserPlaceToFirebase(newPlace);
+  saveReviews(newId);
 
   // Reset form
   document.getElementById('ap-name').value = '';
@@ -919,5 +908,3 @@ document.getElementById('addPlaceModal').addEventListener('click', function(e) {
 
 // ==================== INIT ====================
 document.getElementById('floatingBack').style.display = 'none';
-renderHomeCards();
-renderSearch('');
