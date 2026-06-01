@@ -432,7 +432,7 @@ function renderHomeCards() {
     return `
     <div class="card">
       <div class="card-img-bg" style="background-image:url('${p.img}'),${p.bg};background-size:cover;background-position:center;height:229px;position:relative">
-        <div class="rating-badge">⭐ ${getDisplayRating(p)}</div>
+        <div class="rating-badge">${getDisplayRating(p) > 0 ? '⭐ ' + getDisplayRating(p) : '✦ Baru'}</div>
       </div>
       <div class="card-body">
         <div>
@@ -460,7 +460,8 @@ function renderReko() {
   let filtered = sortByDistance(PLACES).filter(p => {
     const d = getPlaceDist(p);
     if (locationSet && d.km !== undefined && d.km > maxDist) return false;
-    if (p.rating < minRating) return false;
+    const dr = getDisplayRating(p);
+    if (dr > 0 && dr < minRating) return false;
     const tags = (p.tags.join(' ') + ' ' + p.facilities.map(f=>f.name).join(' ')).toLowerCase();
     if (fWifi && !tags.includes('wifi')) return false;
     if (fAc && !tags.includes('ac')) return false;
@@ -481,7 +482,7 @@ function renderReko() {
     return `
     <div class="reko-card" onclick="showPage('detail',${p.id})">
       <div class="reko-card-img" style="background-image:url('${p.img}'),${p.bg};background-size:cover;background-position:center">
-        <div class="rating-badge">⭐ ${getDisplayRating(p)}</div>
+        <div class="rating-badge">${getDisplayRating(p) > 0 ? '⭐ ' + getDisplayRating(p) : '✦ Baru'}</div>
       </div>
       <div class="reko-card-body">
         <div class="reko-card-row">
@@ -543,7 +544,7 @@ function searchCard(p) {
   const d = getPlaceDist(p);
   return `<div class="search-card" onclick="showPage('detail',${p.id})">
     <div class="search-card-img" style="background-image:url('${p.img}'),${p.bg};background-size:cover;background-position:center">
-      <div class="rating-badge" style="top:8px;right:8px;font-size:12px;padding:4px 8px">⭐ ${getDisplayRating(p)}</div>
+      <div class="rating-badge" style="top:8px;right:8px;font-size:12px;padding:4px 8px">${getDisplayRating(p) > 0 ? '⭐ ' + getDisplayRating(p) : '✦ Baru'}</div>
     </div>
     <div class="search-card-body">
       <div>
@@ -686,11 +687,10 @@ saveReviews(currentPlaceId);
   const p = PLACES.find(x => x.id === currentPlaceId);
     if (p) {
       const allReviews = reviews[currentPlaceId];
-      if (allReviews.length > 0) {
-        const avg = allReviews.reduce((sum, r) => sum + r.stars, 0) / allReviews.length;
-        p.rating = Math.round(avg * 10) / 10;
-      }
-      document.getElementById('detailRating').textContent = p.rating + '/5 (' + allReviews.length + ' Ulasan)';
+      const displayRating = getDisplayRating(p);
+      document.getElementById('detailRating').textContent = displayRating + '/5 (' + allReviews.length + ' Ulasan)';
+      renderHomeCards();
+      renderSearch('');
     }
   alert('Ulasan berhasil dikirim! Terima kasih.');
 }
