@@ -319,7 +319,7 @@ let showCount = 4;
 
 function getDisplayRating(p) {
   const r = reviews[p.id] || [];
-  if (r.length === 0) return p.rating;
+  if (r.length === 0) return 0;
   const avg = r.reduce((sum, x) => sum + x.stars, 0) / r.length;
   return Math.round(avg * 10) / 10;
 }
@@ -577,11 +577,8 @@ function loadDetail(id) {
   el.style.backgroundPosition = 'center';
   document.getElementById('detailTitle').textContent = p.name;
   const placeReviews = reviews[p.id] || [];
-    if (placeReviews.length > 0) {
-      const avg = placeReviews.reduce((sum, r) => sum + r.stars, 0) / placeReviews.length;
-      p.rating = Math.round(avg * 10) / 10;
-    }
-    document.getElementById('detailRating').textContent = p.rating + '/5 (' + placeReviews.length + ' Ulasan)';
+  const displayRating = getDisplayRating(p);
+  document.getElementById('detailRating').textContent = displayRating + '/5 (' + placeReviews.length + ' Ulasan)';
   document.getElementById('detailDesc').textContent = p.desc;
   document.getElementById('detailAddress').textContent = p.address;
 
