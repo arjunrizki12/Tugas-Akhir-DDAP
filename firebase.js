@@ -1,4 +1,4 @@
-// ==================== FIREBASE CONFIG ====================
+// FIREBASE CONFIG
 const firebaseConfig = {
   apiKey: "AIzaSyBQAZbo0ZMVY35R0q1uoG9TTCyB0Dd1rZ0",
   authDomain: "arjun-af668.firebaseapp.com",
@@ -11,11 +11,6 @@ const firebaseConfig = {
 firebase.initializeApp(firebaseConfig);
 const db = firebase.firestore();
 
-// ==================== COLLECTIONS ====================
-// db.collection('places')  → tempat komunitas
-// db.collection('reviews') → ulasan per tempat (doc id = placeId)
-
-// ==================== SAVE USER PLACE ====================
 async function saveUserPlaceToFirebase(place) {
   try {
     const placeToSave = { ...place };
@@ -28,7 +23,6 @@ async function saveUserPlaceToFirebase(place) {
   }
 }
 
-// ==================== DELETE USER PLACE ====================
 async function deleteUserPlaceFromFirebase(id) {
   try {
     await db.collection('places').doc(String(id)).delete();
@@ -38,7 +32,6 @@ async function deleteUserPlaceFromFirebase(id) {
   }
 }
 
-// ==================== LOAD USER PLACES ====================
 async function loadUserPlacesFromFirebase() {
   try {
     const snapshot = await db.collection('places').get();
@@ -49,7 +42,6 @@ async function loadUserPlacesFromFirebase() {
   }
 }
 
-// ==================== SAVE REVIEWS ====================
 async function saveReviewsToFirebase(placeId, reviewsArray) {
   try {
     await db.collection('reviews').doc(String(placeId)).set({
@@ -60,7 +52,6 @@ async function saveReviewsToFirebase(placeId, reviewsArray) {
   }
 }
 
-// ==================== LOAD REVIEWS ====================
 async function loadReviewsFromFirebase(placeId) {
   try {
     const doc = await db.collection('reviews').doc(String(placeId)).get();
@@ -72,7 +63,6 @@ async function loadReviewsFromFirebase(placeId) {
   }
 }
 
-// ==================== LOAD ALL REVIEWS ====================
 async function loadAllReviewsFromFirebase() {
   try {
     const snapshot = await db.collection('reviews').get();
@@ -87,7 +77,6 @@ async function loadAllReviewsFromFirebase() {
   }
 }
 
-// ==================== REALTIME LISTENER: PLACES ====================
 function listenToPlaces(callback) {
   db.collection('places').onSnapshot(snapshot => {
     const places = snapshot.docs.map(doc => doc.data());
@@ -97,7 +86,6 @@ function listenToPlaces(callback) {
   });
 }
 
-// ==================== REALTIME LISTENER: REVIEWS ====================
 function listenToReviews(placeId, callback) {
   db.collection('reviews').doc(String(placeId)).onSnapshot(doc => {
     if (doc.exists) {
