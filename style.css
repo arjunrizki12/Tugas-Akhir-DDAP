@@ -254,6 +254,16 @@ input[type=range]{width:100%;accent-color:var(--primary)}
 .btn-submit-place:hover{opacity:.85}
 .user-place-badge{background:rgba(54,100,97,.08);border:1px dashed rgba(54,100,97,.3);color:var(--primary);padding:2px 10px;border-radius:9999px;font-size:11px;font-weight:700;margin-left:8px;vertical-align:middle}
 
+/* SCHEDULE BUILDER (Modal Tambah Tempat) */
+.schedule-row-builder{display:grid;grid-template-columns:110px 1fr 1fr 32px;gap:8px;align-items:center}
+.schedule-day-label{font-size:13px;font-weight:500;color:var(--text1)}
+.schedule-closed-text{color:var(--danger);font-size:13px;font-weight:700;text-align:center}
+.schedule-time-input{padding:8px 12px;border:1px solid #c0c8c7;border-radius:8px;font-size:13px;font-family:inherit;outline:none;width:100%}
+.schedule-time-input:focus{border-color:var(--primary)}
+.schedule-time-input:disabled{background:#f4f4f0;color:var(--text2);cursor:not-allowed}
+.cb-closed{display:flex;align-items:center;gap:6px;font-size:12px;color:var(--text2);cursor:pointer;white-space:nowrap}
+.cb-closed input{accent-color:var(--danger);width:14px;height:14px}
+
 /* FOOTER */
 footer{background:var(--bg3);padding:32px 48px;display:flex;justify-content:space-between;align-items:center}
 .footer-brand span{color:var(--primary);font-weight:700;font-size:16px}
