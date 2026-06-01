@@ -149,7 +149,6 @@ const PLACES_BASE = [
     ],
     schedule:[
       {day:"Senin - Minggu",time:"08:00 - 21:00",closed:false},
-
     ],
     tip:'"Reservasi private room minimal H-1. Open space tersedia walk-in. Harga per jam sangat terjangkau untuk mahasiswa."',
     coords:"-7.939781235870914, 112.61584620859371",
@@ -239,6 +238,55 @@ const PLACES_BASE = [
   }
 ];
 
+// STORAGE KEYS
+const STORAGE_KEY_PLACES  = 'studyspace_user_places';
+const STORAGE_KEY_REVIEWS = 'studyspace_reviews';
+
+// ==================== PERSISTENCE HELPERS ====================
+
+function saveUserPlaces() {
+  const userPlaces = PLACES.filter(p => p.isUserAdded);
+  try {
+    localStorage.setItem(STORAGE_KEY_PLACES, JSON.stringify(userPlaces));
+  } catch(e) {
+    console.warn('localStorage penuh atau tidak tersedia:', e);
+  }
+}
+
+/** Muat tempat komunitas dari localStorage */
+function loadUserPlaces() {
+  try {
+    const raw = localStorage.getItem(STORAGE_KEY_PLACES);
+    return raw ? JSON.parse(raw) : [];
+  } catch(e) {
+    console.warn('Gagal memuat data tempat:', e);
+    return [];
+  }
+}
+
+/** Simpan SEMUA ulasan ke localStorage (hanya id > 12, plus ulasan baru di id ≤ 12) */
+function saveReviews() {
+  try {
+    // Simpan ulasan yang bukan ulasan default awal (hanya yang sudah ditambah user)
+    // Strategi: simpan seluruh object reviews, kecuali kita bedakan mana yang "asli"
+    // Kita simpan semua reviews dengan flag
+    localStorage.setItem(STORAGE_KEY_REVIEWS, JSON.stringify(reviews));
+  } catch(e) {
+    console.warn('localStorage penuh atau tidak tersedia:', e);
+  }
+}
+
+/** Muat semua ulasan tersimpan dari localStorage */
+function loadSavedReviews() {
+  try {
+    const raw = localStorage.getItem(STORAGE_KEY_REVIEWS);
+    return raw ? JSON.parse(raw) : null;
+  } catch(e) {
+    console.warn('Gagal memuat data ulasan:', e);
+    return null;
+  }
+}
+
 // ==================== STATE ====================
 let PLACES = [...PLACES_BASE];
 let reviews = {};
@@ -246,11 +294,31 @@ let userLat = null, userLng = null;
 let locationSet = false;
 
 PLACES_BASE.forEach(p => {
-  reviews[p.id] = [
-    {name:"Andi Firmansyah",initials:"AF",avatarClass:"green",stars:5,text:'"Tempat yang sangat nyaman untuk belajar. WiFi kencang dan suasana kondusif. Highly recommended!"',date:"2 hari yang lalu"},
-    {name:"Siti Pertiwi",initials:"SP",avatarClass:"teal",stars:4,text:'"Lokasinya strategis dan fasilitasnya lengkap. Harga sangat terjangkau untuk mahasiswa."',date:"1 minggu yang lalu"}
-  ];
+  reviews[p.id] = [];
 });
+
+// ==================== INIT PERSISTENT DATA ====================
+(function initFromStorage() {
+  // 1. Muat tempat komunitas yang pernah ditambahkan
+  const savedUserPlaces = loadUserPlaces();
+  if (savedUserPlaces.length > 0) {
+    PLACES = [...PLACES_BASE, ...savedUserPlaces];
+    // Inisialisasi ulasan kosong untuk tempat komunitas (akan diisi dari savedReviews)
+    savedUserPlaces.forEach(p => {
+      if (!reviews[p.id]) reviews[p.id] = [];
+    });
+  }
+
+  // 2. Muat ulasan tersimpan (termasuk ulasan baru di tempat base maupun komunitas)
+  const savedReviews = loadSavedReviews();
+  if (savedReviews) {
+    // Gabungkan: untuk tempat base, gabungkan ulasan default + ulasan tersimpan baru
+    // (Kita simpan SELURUH reviews, jadi tinggal pakai langsung)
+    Object.keys(savedReviews).forEach(id => {
+      reviews[id] = savedReviews[id];
+    });
+  }
+})();
 
 let currentPage = 'home';
 let prevPage = 'home';
@@ -273,7 +341,7 @@ function getDistLabel(km) {
   return km.toFixed(1) + ' km';
 }
 function getTimeLabel(km) {
-  const mins = Math.round(km / 0.35); // ~21 km/h motor
+  const mins = Math.round(km / 0.35);
   if (mins < 60) return `± ${mins} Menit`;
   return `± ${Math.round(mins/60)} Jam`;
 }
@@ -339,7 +407,6 @@ function setLocation() {
       document.getElementById('homeSubtitle').textContent = 'Ruang belajar terdekat dari lokasi Anda saat ini!';
       renderHomeCards();
     }, _ => {
-      // fallback: Malang center
       userLat = -7.9666;
       userLng = 112.6326;
       locationSet = true;
@@ -450,10 +517,8 @@ function resetFilter() {
   renderReko();
 }
 function loadMore() {
-  // Show all remaining
   showCount = Math.min(showCount + 4, PLACES.length + 10);
   renderReko();
-  // Also render any extra places beyond the base 12
   if (showCount >= PLACES.length) {
     document.querySelector('.btn-load').textContent = 'Semua Tempat Ditampilkan';
     setTimeout(() => { document.querySelector('.btn-load').textContent = 'Muat Lebih Banyak'; }, 2000);
@@ -535,10 +600,44 @@ function loadDetail(id) {
     `<div class="schedule-row"><span>${s.day}</span><span class="${s.closed?'closed':'time'}">${s.time}</span></div>`
   ).join('');
 
+  // Tampilkan tombol hapus hanya untuk tempat komunitas
+  const deleteWrap = document.getElementById('deleteUserPlaceWrap');
+  if (p.isUserAdded) {
+    deleteWrap.style.display = 'block';
+    deleteWrap.querySelector('.btn-delete-place').onclick = () => confirmDeletePlace(p.id, p.name);
+  } else {
+    deleteWrap.style.display = 'none';
+  }
+
   renderReviews(id);
   selectedStar = 0;
   document.getElementById('reviewForm').classList.remove('show');
   document.querySelectorAll('.star-select span').forEach(s => s.classList.remove('active'));
+}
+
+// ==================== HAPUS TEMPAT ====================
+function confirmDeletePlace(id, name) {
+  document.getElementById('deletePlaceName').textContent = name;
+  document.getElementById('confirmDeleteModal').classList.add('show');
+  document.body.style.overflow = 'hidden';
+  document.getElementById('btnConfirmDelete').onclick = () => executeDeletePlace(id);
+}
+
+function cancelDelete() {
+  document.getElementById('confirmDeleteModal').classList.remove('show');
+  document.body.style.overflow = '';
+}
+
+function executeDeletePlace(id) {
+  PLACES = PLACES.filter(p => p.id !== id);
+  delete reviews[id];
+  saveUserPlaces();
+  saveReviews();
+  cancelDelete();
+  const dest = (prevPage === 'reko' || prevPage === 'search') ? prevPage : 'home';
+  showPage(dest);
+  renderHomeCards();
+  renderSearch('');
 }
 
 function renderReviews(id) {
@@ -561,6 +660,7 @@ function setStar(n) {
   selectedStar = n;
   document.querySelectorAll('.star-select span').forEach((s,i) => s.classList.toggle('active', i < n));
 }
+
 function submitReview() {
   const name = document.getElementById('reviewName').value.trim();
   const text = document.getElementById('reviewText').value.trim();
@@ -568,23 +668,93 @@ function submitReview() {
   const initials = name.split(' ').map(w=>w[0]).join('').toUpperCase().slice(0,2);
   const av = ['green','teal'][Math.floor(Math.random()*2)];
   if (!reviews[currentPlaceId]) reviews[currentPlaceId] = [];
-  reviews[currentPlaceId].unshift({name, initials, avatarClass:av, stars:selectedStar, text:`"${text}"`, date:"Baru saja"});
+  reviews[currentPlaceId].unshift({
+    name, initials, avatarClass: av,
+    stars: selectedStar,
+    text: `"${text}"`,
+    date: new Date().toLocaleDateString('id-ID', {day:'numeric', month:'long', year:'numeric'})
+  });
+
+  // 💾 Simpan ulasan ke localStorage
+  saveReviews();
+
   renderReviews(currentPlaceId);
   document.getElementById('reviewName').value = '';
   document.getElementById('reviewText').value = '';
   selectedStar = 0;
   document.querySelectorAll('.star-select span').forEach(s => s.classList.remove('active'));
   document.getElementById('reviewForm').classList.remove('show');
-  // Update rating count
+
   const p = PLACES.find(x => x.id === currentPlaceId);
   if (p) document.getElementById('detailRating').textContent = p.rating + '/5 (' + reviews[currentPlaceId].length + ' Ulasan)';
   alert('Ulasan berhasil dikirim! Terima kasih.');
+}
+// SCHEDULE ADD //
+const SCHEDULE_DAYS = [
+  { key: 'senin_jumat', label: 'Senin - Jumat' },
+  { key: 'sabtu',       label: 'Sabtu' },
+  { key: 'minggu',      label: 'Minggu' }
+];
+
+function buildScheduleUI() {
+  const container = document.getElementById('ap-schedule-list');
+  container.innerHTML = SCHEDULE_DAYS.map(d => `
+    <div class="schedule-row-builder" id="srow-${d.key}">
+      <span class="schedule-day-label">${d.label}</span>
+      <input type="time" class="schedule-time-input" id="sopen-${d.key}" value="08:00">
+      <input type="time" class="schedule-time-input" id="sclose-${d.key}" value="22:00">
+      <label class="cb-closed" title="Tutup">
+        <input type="checkbox" id="sclosed-${d.key}"
+          onchange="toggleScheduleClosed('${d.key}')">
+        <span style="font-size:11px">Tutup</span>
+      </label>
+    </div>
+  `).join('');
+}
+
+function toggleScheduleClosed(key) {
+  const isClosed = document.getElementById(`sclosed-${key}`).checked;
+  const openInput  = document.getElementById(`sopen-${key}`);
+  const closeInput = document.getElementById(`sclose-${key}`);
+  const row        = document.getElementById(`srow-${key}`);
+
+  openInput.disabled  = isClosed;
+  closeInput.disabled = isClosed;
+
+  // Ganti input dengan teks merah saat tutup
+  if (isClosed) {
+    openInput.style.display  = 'none';
+    closeInput.style.display = 'none';
+    if (!row.querySelector('.closed-label')) {
+      const span = document.createElement('span');
+      span.className = 'closed-label schedule-closed-text';
+      span.style.gridColumn = '2 / 4';
+      span.textContent = 'Tutup';
+      row.insertBefore(span, openInput);
+    }
+  } else {
+    openInput.style.display  = '';
+    closeInput.style.display = '';
+    const existing = row.querySelector('.closed-label');
+    if (existing) existing.remove();
+  }
+}
+
+function getScheduleFromUI() {
+  return SCHEDULE_DAYS.map(d => {
+    const isClosed = document.getElementById(`sclosed-${d.key}`).checked;
+    if (isClosed) return { day: d.label, time: 'Tutup', closed: true };
+    const open  = document.getElementById(`sopen-${d.key}`).value  || '08:00';
+    const close = document.getElementById(`sclose-${d.key}`).value || '22:00';
+    return { day: d.label, time: `${open} - ${close}`, closed: false };
+  });
 }
 
 // ==================== TAMBAH TEMPAT ====================
 function openAddPlace() {
   document.getElementById('addPlaceModal').classList.add('show');
   document.body.style.overflow = 'hidden';
+  buildScheduleUI();
 }
 function closeAddPlace() {
   document.getElementById('addPlaceModal').classList.remove('show');
@@ -601,40 +771,102 @@ const COLORS = [
   "linear-gradient(135deg,#1B4332 0%,#40916C 100%)"
 ];
 
+// ==================== FOTO PREVIEW ====================
+let uploadedPhotoBase64 = '';
+
+function handlePhotoUpload(input) {
+  const file = input.files[0];
+  if (!file) return;
+
+  // Validasi ukuran maks 5 MB
+  if (file.size > 5 * 1024 * 1024) {
+    alert('Ukuran foto maksimal 5 MB. Silakan pilih foto yang lebih kecil.');
+    input.value = '';
+    return;
+  }
+
+  const reader = new FileReader();
+  reader.onload = function(e) {
+    uploadedPhotoBase64 = e.target.result; // data:image/...;base64,...
+    document.getElementById('ap-photo-preview').src = uploadedPhotoBase64;
+    document.getElementById('ap-photo-preview-wrap').style.display = 'block';
+    document.getElementById('ap-photo-label').textContent = '✅ ' + file.name;
+  };
+  reader.readAsDataURL(file);
+}
+
+function removePhoto() {
+  uploadedPhotoBase64 = '';
+  document.getElementById('ap-photo').value = '';
+  document.getElementById('ap-photo-preview-wrap').style.display = 'none';
+  document.getElementById('ap-photo-preview').src = '';
+  document.getElementById('ap-photo-label').textContent = '📷 Klik untuk upload foto';
+}
+
+// ==================== KOORDINAT: PREVIEW MAP ====================
+function previewCoords() {
+  const lat = parseFloat(document.getElementById('ap-lat').value.trim());
+  const lng = parseFloat(document.getElementById('ap-lng').value.trim());
+  const wrap = document.getElementById('ap-map-preview-wrap');
+  const frame = document.getElementById('ap-map-preview');
+  const hint = document.getElementById('ap-coords-hint');
+
+  if (isNaN(lat) || isNaN(lng) || lat < -90 || lat > 90 || lng < -180 || lng > 180) {
+    wrap.style.display = 'none';
+    hint.textContent = '⚠️ Koordinat tidak valid. Pastikan format benar.';
+    hint.style.color = '#ba1a1a';
+    return;
+  }
+  hint.textContent = `✅ Koordinat valid: ${lat}, ${lng}`;
+  hint.style.color = '#366461';
+  frame.src = `https://www.openstreetmap.org/export/embed.html?bbox=${lng-.008},${lat-.008},${lng+.008},${lat+.008}&layer=mapnik&marker=${lat},${lng}`;
+  wrap.style.display = 'block';
+}
+
 function submitPlace() {
-  const name = document.getElementById('ap-name').value.trim();
-  const address = document.getElementById('ap-address').value.trim();
-  const type = document.getElementById('ap-type').value;
-  const contrib = document.getElementById('ap-contrib').value.trim();
-  const desc = document.getElementById('ap-desc').value.trim();
+  const name     = document.getElementById('ap-name').value.trim();
+  const address  = document.getElementById('ap-address').value.trim();
+  const type     = document.getElementById('ap-type').value;
+  const contrib  = document.getElementById('ap-contrib').value.trim();
+  const desc     = document.getElementById('ap-desc').value.trim();
+  const latRaw   = document.getElementById('ap-lat').value.trim();
+  const lngRaw   = document.getElementById('ap-lng').value.trim();
 
   if (!name || !address || !type || !contrib) {
     alert('Mohon lengkapi semua field wajib (*)');
     return;
   }
 
+  // Validasi koordinat — wajib diisi & valid
+  const lat = parseFloat(latRaw);
+  const lng = parseFloat(lngRaw);
+  if (!latRaw || !lngRaw || isNaN(lat) || isNaN(lng) || lat < -90 || lat > 90 || lng < -180 || lng > 180) {
+    alert('Koordinat tidak valid!\n\nCara mendapatkan koordinat:\n1. Buka Google Maps\n2. Klik kanan lokasi tempat\n3. Salin angka pertama (Latitude) dan kedua (Longitude)');
+    return;
+  }
+
   const tags = [];
-  if (document.getElementById('ap-wifi').checked) tags.push('WiFi');
-  if (document.getElementById('ap-ac').checked) tags.push('AC');
-  if (document.getElementById('ap-quiet').checked) tags.push('Quiet Zone');
-  if (document.getElementById('ap-outlet').checked) tags.push('Power Outlet');
+  if (document.getElementById('ap-wifi').checked)    tags.push('WiFi');
+  if (document.getElementById('ap-ac').checked)      tags.push('AC');
+  if (document.getElementById('ap-quiet').checked)   tags.push('Quiet Zone');
+  if (document.getElementById('ap-outlet').checked)  tags.push('Power Outlet');
   if (document.getElementById('ap-parking').checked) tags.push('Parkir Gratis');
-  if (document.getElementById('ap-coffee').checked) tags.push('Café');
+  if (document.getElementById('ap-coffee').checked)  tags.push('Café');
 
   const facilities = [];
-  if (document.getElementById('ap-wifi').checked) facilities.push({icon:'📶',name:'WiFi'});
-  if (document.getElementById('ap-ac').checked) facilities.push({icon:'❄️',name:'Full AC'});
-  if (document.getElementById('ap-quiet').checked) facilities.push({icon:'🔇',name:'Quiet Zone'});
-  if (document.getElementById('ap-outlet').checked) facilities.push({icon:'🔌',name:'Power Outlet'});
+  if (document.getElementById('ap-wifi').checked)    facilities.push({icon:'📶',name:'WiFi'});
+  if (document.getElementById('ap-ac').checked)      facilities.push({icon:'❄️',name:'Full AC'});
+  if (document.getElementById('ap-quiet').checked)   facilities.push({icon:'🔇',name:'Quiet Zone'});
+  if (document.getElementById('ap-outlet').checked)  facilities.push({icon:'🔌',name:'Power Outlet'});
   if (document.getElementById('ap-parking').checked) facilities.push({icon:'🅿️',name:'Parkir Gratis'});
-  if (document.getElementById('ap-coffee').checked) facilities.push({icon:'☕',name:'Café'});
+  if (document.getElementById('ap-coffee').checked)  facilities.push({icon:'☕',name:'Café'});
   if (facilities.length === 0) facilities.push({icon:'🏢',name:'Tempat Belajar'});
 
-  // Parse loc from address
   const locParts = address.split(',');
   const loc = locParts.slice(-3).map(s=>s.trim()).join(', ') || address;
 
-  const newId = Math.max(...PLACES.map(p=>p.id)) + 1;
+  const newId = Math.max(...PLACES.map(p => p.id)) + 1;
+
   const newPlace = {
     id: newId,
     name, address, loc, type,
@@ -642,15 +874,22 @@ function submitPlace() {
     tags: tags.length > 0 ? tags : ['Tempat Belajar'],
     desc: desc || `${name} adalah tempat belajar yang ditambahkan oleh komunitas Study Space. Ditambahkan oleh: ${contrib}.`,
     facilities,
-    schedule: [{day:'Senin - Minggu', time:'Lihat lokasi', closed:false}],
+    schedule: getScheduleFromUI(),
     tip: `"Ditambahkan oleh komunitas: ${contrib}. Informasi dapat berubah — harap verifikasi langsung."`,
-    coords: "-7.9666,112.6326",
+    coords: `${lat},${lng}`,
+    img: uploadedPhotoBase64 || '',
     bg: COLORS[Math.floor(Math.random() * COLORS.length)],
-    isUserAdded: true
+    isUserAdded: true,
+    addedAt: new Date().toISOString(),
+    contributor: contrib
   };
 
   PLACES.push(newPlace);
   reviews[newId] = [];
+
+  // 💾 Simpan ke localStorage
+  saveUserPlaces();
+  saveReviews();
 
   // Reset form
   document.getElementById('ap-name').value = '';
@@ -658,12 +897,17 @@ function submitPlace() {
   document.getElementById('ap-type').value = '';
   document.getElementById('ap-desc').value = '';
   document.getElementById('ap-contrib').value = '';
+  document.getElementById('ap-lat').value = '';
+  document.getElementById('ap-lng').value = '';
+  document.getElementById('ap-coords-hint').textContent = '';
+  document.getElementById('ap-map-preview-wrap').style.display = 'none';
+  removePhoto();
   ['ap-wifi','ap-ac','ap-quiet','ap-outlet','ap-parking','ap-coffee'].forEach(id => {
     document.getElementById(id).checked = false;
   });
 
   closeAddPlace();
-  alert(`✅ Terima kasih, ${contrib}! "${name}" berhasil ditambahkan ke Study Space.`);
+  alert(`✅ Terima kasih, ${contrib}! "${name}" berhasil ditambahkan ke Study Space dan tersimpan permanen.`);
   renderSearch('');
   renderHomeCards();
 }
