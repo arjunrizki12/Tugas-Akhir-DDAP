@@ -1,4 +1,4 @@
-// DATA TEMPAT AWAL DARI KITA
+// DATA TEMPAT AWAL DARI KITA 
 const PLACES_BASE = [
   {
     id:1, name:"UB Coffee - Coffee & Eatery",
