@@ -1,4 +1,4 @@
-// ==================== DATA TEMPAT ====================
+// DATA TEMPAT AWAL DARI KITA
 const PLACES_BASE = [
   {
     id:1, name:"UB Coffee - Coffee & Eatery",
@@ -265,7 +265,7 @@ async function loadSavedReviews() {
   return await loadAllReviewsFromFirebase();
 }
 
-// ==================== STATE ====================
+// STATE
 let PLACES = [...PLACES_BASE];
 let reviews = {};
 let userLat = null, userLng = null;
@@ -324,7 +324,7 @@ function getDisplayRating(p) {
   return Math.round(avg * 10) / 10;
 }
 
-// ==================== HAVERSINE DISTANCE ====================
+// HAVERSINE DISTANCE
 function haversine(lat1, lng1, lat2, lng2) {
   const R = 6371;
   const dLat = (lat2 - lat1) * Math.PI / 180;
@@ -359,7 +359,7 @@ function getPlaceDist(p) {
   return { dist: getDistLabel(km), time: getTimeLabel(km), km };
 }
 
-// ==================== NAVIGATION ====================
+// NAVIGATION
 function showPage(page, placeId) {
   document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
   document.querySelectorAll('.nav-link').forEach(l => l.classList.remove('active'));
@@ -385,7 +385,7 @@ function goBack() {
   showPage(dest);
 }
 
-// ==================== GEOLOCATION ====================
+// GEOLOCATION
 function setLocation() {
   const placeholder = document.getElementById('mapPlaceholder');
   const loading = document.getElementById('mapLoading');
@@ -422,7 +422,7 @@ function setLocation() {
   }
 }
 
-// ==================== HOME CARDS ====================
+// HOME CARDS
 function renderHomeCards() {
   const grid = document.getElementById('homeCards');
   const sorted = sortByDistance(PLACES);
@@ -448,7 +448,7 @@ function renderHomeCards() {
   }).join('');
 }
 
-// ==================== REKOMENDASI ====================
+// REKOMENDASI
 function renderReko() {
   const fWifi = document.getElementById('f-wifi')?.checked;
   const fAc = document.getElementById('f-ac')?.checked;
@@ -523,7 +523,7 @@ function loadMore() {
   }
 }
 
-// ==================== PENCARIAN ====================
+// PENCARIAN
 function renderSearch(q) {
   const grid = document.getElementById('searchGrid');
   const term = q.toLowerCase().trim();
@@ -565,7 +565,7 @@ function quickFilter(q) {
 }
 function toggleSearchFilter() { document.getElementById('searchFilterPanel').classList.toggle('show'); }
 
-// ==================== DETAIL ====================
+// DETAIL
 function loadDetail(id) {
   if (!id) return;
   currentPlaceId = id;
@@ -615,7 +615,7 @@ function loadDetail(id) {
   document.querySelectorAll('.star-select span').forEach(s => s.classList.remove('active'));
 }
 
-// ==================== HAPUS TEMPAT ====================
+// HAPUS TEMPAT
 function confirmDeletePlace(id, name) {
   document.getElementById('deletePlaceName').textContent = name;
   document.getElementById('confirmDeleteModal').classList.add('show');
@@ -674,7 +674,7 @@ function submitReview() {
     date: new Date().toLocaleDateString('id-ID', {day:'numeric', month:'long', year:'numeric'})
   });
 
-  // 💾 Simpan ulasan ke Firebase
+  // Simpan ulasan ke Firebase
 saveReviews(currentPlaceId);
 
   renderReviews(currentPlaceId);
@@ -726,7 +726,7 @@ function toggleScheduleClosed(key) {
   openInput.disabled  = isClosed;
   closeInput.disabled = isClosed;
 
-  // Ganti input dengan teks merah saat tutup
+  // ni untuk ganti input dengan teks merah saat tutup
   if (isClosed) {
     openInput.style.display  = 'none';
     closeInput.style.display = 'none';
@@ -755,7 +755,7 @@ function getScheduleFromUI() {
   });
 }
 
-// ==================== TAMBAH TEMPAT ====================
+// TAMBAH TEMPAT
 function openAddPlace() {
   document.getElementById('addPlaceModal').classList.add('show');
   document.body.style.overflow = 'hidden';
@@ -776,16 +776,16 @@ const COLORS = [
   "linear-gradient(135deg,#1B4332 0%,#40916C 100%)"
 ];
 
-// ==================== FOTO PREVIEW ====================
+// FOTO PREVIEW
 let uploadedPhotoBase64 = '';
 
 function handlePhotoUpload(input) {
   const file = input.files[0];
   if (!file) return;
 
-  // Validasi ukuran maks 5 MB
-  if (file.size > 5 * 1024 * 1024) {
-    alert('Ukuran foto maksimal 5 MB. Silakan pilih foto yang lebih kecil.');
+  // Validasi ukuran maks 500 KB
+  if (file.size > 500 * 1024) {
+    alert('Ukuran foto maksimal 500 KB. Silakan pilih foto yang lebih kecil.');
     input.value = '';
     return;
   }
@@ -808,7 +808,7 @@ function removePhoto() {
   document.getElementById('ap-photo-label').textContent = '📷 Klik untuk upload foto';
 }
 
-// ==================== KOORDINAT: PREVIEW MAP ====================
+// KOORDINAT: PREVIEW MAP
 function previewCoords() {
   const lat = parseFloat(document.getElementById('ap-lat').value.trim());
   const lng = parseFloat(document.getElementById('ap-lng').value.trim());
@@ -892,7 +892,7 @@ function submitPlace() {
   PLACES.push(newPlace);
   reviews[newId] = [];
 
-  // 💾 Simpan ke Firebase
+  // Simpan ke Firebase
   saveUserPlaceToFirebase(newPlace);
   saveReviews(newId);
 
@@ -922,5 +922,5 @@ document.getElementById('addPlaceModal').addEventListener('click', function(e) {
   if (e.target === this) closeAddPlace();
 });
 
-// ==================== INIT ====================
+// INIT
 document.getElementById('floatingBack').style.display = 'none';
