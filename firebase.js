@@ -18,7 +18,11 @@ const db = firebase.firestore();
 // ==================== SAVE USER PLACE ====================
 async function saveUserPlaceToFirebase(place) {
   try {
-    await db.collection('places').doc(String(place.id)).set(place);
+    const placeToSave = { ...place };
+    if (placeToSave.img && placeToSave.img.startsWith('data:') && placeToSave.img.length > 500000) {
+      placeToSave.img = '';
+    }
+    await db.collection('places').doc(String(place.id)).set(placeToSave);
   } catch (e) {
     console.warn('Gagal simpan tempat ke Firebase:', e);
   }
