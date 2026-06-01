@@ -569,7 +569,12 @@ function loadDetail(id) {
   el.style.backgroundSize = 'cover';
   el.style.backgroundPosition = 'center';
   document.getElementById('detailTitle').textContent = p.name;
-  document.getElementById('detailRating').textContent = p.rating + '/5 (' + (reviews[p.id]?.length || 0) + ' Ulasan)';
+  const placeReviews = reviews[p.id] || [];
+    if (placeReviews.length > 0) {
+      const avg = placeReviews.reduce((sum, r) => sum + r.stars, 0) / placeReviews.length;
+      p.rating = Math.round(avg * 10) / 10;
+    }
+    document.getElementById('detailRating').textContent = p.rating + '/5 (' + placeReviews.length + ' Ulasan)';
   document.getElementById('detailDesc').textContent = p.desc;
   document.getElementById('detailAddress').textContent = p.address;
 
